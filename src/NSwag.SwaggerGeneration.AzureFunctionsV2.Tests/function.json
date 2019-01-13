@@ -1,0 +1,19 @@
+﻿{
+  "generatedBy": "Microsoft.NET.Sdk.Functions.Generator-1.0.6",
+  "configurationSource": "attributes",
+  "bindings": [
+    {
+      "direction": "in",
+      "type": "httpTrigger",
+      "methods": [
+        "post",
+        "get"
+      ],
+      "authLevel": "function",
+      "name": "request"
+    }
+  ],
+  "disabled": false,
+  "scriptFile": "../bin/NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.dll",
+  "entryPoint": "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.FunctionApp.Run"
+}

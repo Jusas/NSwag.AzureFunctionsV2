@@ -1,0 +1,122 @@
+### PostPrimitiveTypeAnnotation
+
+POST http://localhost:7071/api/PostPrimitiveTypeAnnotation
+Content-Type: text/plain
+
+hello function
+
+### PostComplexTypeAnnotation
+
+POST http://localhost:7071/api/PostComplexTypeAnnotation
+Content-Type: application/json
+
+{
+  "StringValue": "hello",
+  "IntValue": 1
+}
+
+### PostNestedComplexTypeAnnotation
+
+POST http://localhost:7071/api/PostNestedComplexTypeAnnotation
+Content-Type: application/json
+
+{
+  "Primitive": "hello",
+  "Complex": {
+    "StringValue": "hello",
+    "IntValue": 1
+  }
+}
+
+### MultipartFormUploadAnnotation
+
+POST http://localhost:7071/api/MultipartFormUploadAnnotation
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="text"
+
+some text
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="number"
+
+123
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+
+< c:/tmp/slv.wcs
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+GET http://localhost:7071/api/foo/baz?arr=1&arr=2
+
+###
+
+GET http://localhost:7071/api/QueryParams?number=5&numberList=1&numberList=2&str=hello&strList=my&strList=list
+
+###
+
+GET http://localhost:7071/api/Headers
+x-my-header: diddlydoo
+
+###
+
+GET http://localhost:7071/api/HeadersNative
+x-my-header: diddlydoo
+
+### LOCALHOST upload
+
+POST http://localhost:3000/api/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="request-json"
+Content-Type: application/text/plain
+MIME-Version: 1.0
+
+{"downsample_factor": 4, 
+"publicly_visible": "y", 
+"allow_modifications": "d", 
+"session": "no-session", 
+"allow_commercial_use": "d",
+"center_ra": 36.42, "center_dec": 41.95, "radius": 2.0}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+
+< c:/tmp/slv.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### Single values of different types
+
+GET http://localhost:7071/api/QueryParameterTestFunction-Basic?stringParam=hello&intParam=1&enumParam=2
+
+### Single values with some empty fields
+
+GET http://localhost:7071/api/QueryParameterTestFunction-Basic?stringParam=hello
+
+### Single values with required field empty; expect 400
+
+GET http://localhost:7071/api/QueryParameterTestFunction-Basic?stringParam=234&intParam=afd
+
+
+
+
+### Arrays
+
+GET http://localhost:7071/api/QueryParameterTestFunction-Arrays?stringArray=alpha&stringArray=beta&intArray=1&intArray=2&enumArray=1&enumArray=2
+
+### Arrays with some fields left empty
+
+GET http://localhost:7071/api/QueryParameterTestFunction-Arrays?stringArray=alpha&stringArray=beta
+
+
+### 
+

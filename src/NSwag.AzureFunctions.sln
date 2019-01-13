@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Annotations.AzureFunctionsV2", "NSwag.Annotations.AzureFunctionsV2\NSwag.Annotations.AzureFunctionsV2.csproj", "{F3740BE3-8589-4D81-B75B-355FD19246FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AzureFunctionsV2", "NSwag.SwaggerGeneration.AzureFunctionsV2\NSwag.SwaggerGeneration.AzureFunctionsV2.csproj", "{C2149BF6-0FAC-4B94-8FBD-45A3EF92FA19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Core", "01 Core", "{2BD29F43-299D-48D0-92C8-A20277393F1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 SwaggerGeneration", "02 SwaggerGeneration", "{0855E9A6-019F-45CC-AE66-2F5CDFD4B159}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Tests", "04 Tests", "{331BE0CD-3B6D-4B7A-B954-9732670FAD85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.csproj", "{CB3EEADF-D5DA-434F-8F19-A7A014F62349}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp.csproj", "{04548CCE-122F-4A92-9834-F6EE9C4F084E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp2", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp2\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp2.csproj", "{11881ECA-D06E-4EBD-80EE-04A0E0C75971}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 AzureFunctions", "03 AzureFunctions", "{81A76EEA-B79F-47AC-857A-3A8F9A0D59B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AzureFunctionsV2.Extensions", "NSwag.AzureFunctionsV2.Extensions\NSwag.AzureFunctionsV2.Extensions.csproj", "{E93025CE-8535-4DE2-B8CD-22DFBE4F0C87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3740BE3-8589-4D81-B75B-355FD19246FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3740BE3-8589-4D81-B75B-355FD19246FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3740BE3-8589-4D81-B75B-355FD19246FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3740BE3-8589-4D81-B75B-355FD19246FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2149BF6-0FAC-4B94-8FBD-45A3EF92FA19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2149BF6-0FAC-4B94-8FBD-45A3EF92FA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2149BF6-0FAC-4B94-8FBD-45A3EF92FA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2149BF6-0FAC-4B94-8FBD-45A3EF92FA19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB3EEADF-D5DA-434F-8F19-A7A014F62349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB3EEADF-D5DA-434F-8F19-A7A014F62349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB3EEADF-D5DA-434F-8F19-A7A014F62349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB3EEADF-D5DA-434F-8F19-A7A014F62349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04548CCE-122F-4A92-9834-F6EE9C4F084E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04548CCE-122F-4A92-9834-F6EE9C4F084E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04548CCE-122F-4A92-9834-F6EE9C4F084E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04548CCE-122F-4A92-9834-F6EE9C4F084E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11881ECA-D06E-4EBD-80EE-04A0E0C75971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11881ECA-D06E-4EBD-80EE-04A0E0C75971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11881ECA-D06E-4EBD-80EE-04A0E0C75971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11881ECA-D06E-4EBD-80EE-04A0E0C75971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E93025CE-8535-4DE2-B8CD-22DFBE4F0C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E93025CE-8535-4DE2-B8CD-22DFBE4F0C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E93025CE-8535-4DE2-B8CD-22DFBE4F0C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E93025CE-8535-4DE2-B8CD-22DFBE4F0C87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F3740BE3-8589-4D81-B75B-355FD19246FB} = {2BD29F43-299D-48D0-92C8-A20277393F1D}
+		{C2149BF6-0FAC-4B94-8FBD-45A3EF92FA19} = {0855E9A6-019F-45CC-AE66-2F5CDFD4B159}
+		{CB3EEADF-D5DA-434F-8F19-A7A014F62349} = {331BE0CD-3B6D-4B7A-B954-9732670FAD85}
+		{04548CCE-122F-4A92-9834-F6EE9C4F084E} = {331BE0CD-3B6D-4B7A-B954-9732670FAD85}
+		{11881ECA-D06E-4EBD-80EE-04A0E0C75971} = {331BE0CD-3B6D-4B7A-B954-9732670FAD85}
+		{E93025CE-8535-4DE2-B8CD-22DFBE4F0C87} = {81A76EEA-B79F-47AC-857A-3A8F9A0D59B7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AE073F0-30A4-4CC8-9615-D484A0AD450C}
+	EndGlobalSection
+EndGlobal
