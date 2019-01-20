@@ -28,9 +28,140 @@ Content-Type: application/json
   }
 }
 
+
+###
+
+POST http://localhost:7071/api/post-object
+Content-Type: application/json
+
+{
+  "name": "John",
+  "boolean": true,
+  "numbers": [1,2,3]
+}
+
+###
+POST http://localhost:7071/api/post-object
+Content-Type: application/xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+   <boolean>true</boolean>
+   <name>John</name>
+   <numbers>
+      <element>1</element>
+      <element>2</element>
+      <element>3</element>
+   </numbers>
+</root>
+
+### someString=hello&someObject=%7B%22Name%22%3A%22John%22%2C%22Bool%22%3A%22true%22%7D&someInteger=123&stringList=5&stringList=6&stringList=7&enumArray=0&enumArray=1
+
+POST http://localhost:7071/api/form-basics
+Content-Type: application/x-www-form-urlencoded
+
+someString=hello&someObject=%7B%22Name%22%3A%22John%22%2C%22Bool%22%3A%22true%22%7D&someInteger=123&stringList=5&stringList=6&stringList=7&enumArray=0&enumArray=1
+
+###
+
+POST http://localhost:7071/api/form-upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="someString"
+
+hello
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="test.jpg"
+Content-Type: image/jpeg
+MIME-Version: 1.0
+
+< c:/temp/temp.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+POST http://localhost:7071/api/form-upload-multi
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="someString"
+
+hello
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image1"; filename="test.jpg"
+Content-Type: image/jpeg
+MIME-Version: 1.0
+
+< c:/temp/temp.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image2"; filename="test.jpg"
+Content-Type: image/jpeg
+MIME-Version: 1.0
+
+< c:/temp/temp.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+GET http://localhost:7071/api/users
+
+###
+
+GET http://localhost:7071/api/users?onlyWithImage=true&onlyRoles=0&onlyRoles=1
+
+###
+
+GET http://localhost:7071/api/users/c5c2e735-1462-4fa7-893b-f12ab87821d3
+
+###
+
+GET http://localhost:7071/api/users/c5c2e735-1462-4fa7-893b-f12ab87821d3/image
+
+###
+POST http://localhost:7071/api/users
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="user"
+
+{
+  "name": "Job",
+  "age": 2343,
+  "isAdmin": false
+}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+###
+
+POST http://localhost:7071/api/users
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="user"
+
+{
+  "Name": "Doe",
+  "Age": 234,
+  "IsAdmin": false
+}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="test.jpg"
+Content-Type: image/jpeg
+MIME-Version: 1.0
+
+< c:/temp/temp.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
 ### MultipartFormUploadAnnotation
 
-POST http://localhost:7071/api/MultipartFormUploadAnnotation
+POST http://localhost:7071/api/default
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -50,6 +181,16 @@ MIME-Version: 1.0
 
 < c:/tmp/slv.wcs
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+GET http://localhost:7071/api/values/1
+
+###
+
+PUT http://localhost:7071/api/values/1
+Content-Type: application/json
+
+524
 
 ###
 GET http://localhost:7071/api/foo/baz?arr=1&arr=2
