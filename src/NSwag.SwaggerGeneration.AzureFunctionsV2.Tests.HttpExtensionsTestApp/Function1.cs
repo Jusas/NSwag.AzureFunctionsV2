@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
+using NSwag.Annotations;
 using NSwag.Annotations.AzureFunctionsV2;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
@@ -28,13 +30,14 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <summary>
         /// This is a summary.
         /// </summary>
-        /// <param name="req"></param>
+        /// <param name="req">The request</param>
         /// <param name="simpleQueryParam">Simple query param</param>
         /// <param name="secondQueryParam">Blah</param>
-        /// <param name="objectQueryParam"></param>
-        /// <param name="header"></param>
+        /// <param name="objectQueryParam">Object param</param>
+        /// <param name="header">A header</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [Produces(typeof(string))]
         [FunctionName("Function1")]
         public static async Task<IActionResult> Basics(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
@@ -48,7 +51,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             return new OkObjectResult("ok");
         }
 
-        [SwaggerAuthorize()]
+        [SwaggerAuthorize]
         [FunctionName("Function2")]
         public static async Task<IActionResult> PostBody(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "my/url")] HttpRequest req,
@@ -78,6 +81,37 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             var document = await generator.GenerateForAzureFunctionClassAsync(typeof(Function1));
             var json = document.ToJson();
             return new OkObjectResult(json);
+        }
+
+        [SwaggerIgnore]
+        [FunctionName("swaggerui")]
+        public static async Task<IActionResult> SwaggerUi(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "swaggerui/{staticfile}")] HttpRequest req,
+            string staticfile,
+            ILogger log)
+        {
+            var root = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Function1)).Location);
+            var file = $@"{root}\..\SwaggerUi-files\{staticfile}";
+            file = Path.GetFullPath(file);
+            if (File.Exists(file))
+            {
+                string contentType;
+                var provider = new FileExtensionContentTypeProvider();
+                if (!provider.TryGetContentType(file, out contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
+
+                byte[] buf = null;
+                using (var stream = File.OpenRead(file))
+                {
+                    buf = new byte[stream.Length];
+                    stream.Read(buf, 0, buf.Length);
+                }
+                return new FileContentResult(buf, contentType);
+            }
+
+            return new NotFoundResult();
         }
     }
 }

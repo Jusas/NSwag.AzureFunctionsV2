@@ -279,6 +279,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     else if(((ParameterInfo)parameterObj).ParameterType.Name == "HttpParam`1")
                     {
                         var httpParam = (ParameterInfo) parameterObj;
+                        var httpParamDocumentation = await httpParam.GetXmlDocumentationAsync();
                         var httpParamType = httpParam.ParameterType;
 
                         var httpParamContainerValueType = httpParamType.GetGenericArguments().FirstOrDefault();
@@ -297,7 +298,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                             parameterName = annotatedParamName;
 
                         operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                            parameterName, /* todo */ "",
+                            parameterName, /* todo */ httpParamDocumentation,
                             httpParamContainerValueType, synthesizedAttributes);
 
                         if (paramHttpExtensionAttribute.GetType().Name == "HttpFormAttribute")
@@ -307,7 +308,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                                 httpParamContainerValueType.Name == "IFormFileCollection")
                             {
                                 operationParameter = await AddFileParameterAsync(context, parameterName,
-                                    "" /* todo */,
+                                    httpParamDocumentation, /* todo */
                                     httpParamContainerValueType.Name == "IFormFileCollection",
                                     synthesizedAttributes);
                             }
@@ -320,7 +321,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                         {
                             operationParameter = await AddSwaggerRequestBodyTypeParameterAsync(context, parameterName,
                                 httpParamContainerValueType,
-                                synthesizedAttributes, required, "" /* todo */);
+                                synthesizedAttributes, required, httpParamDocumentation /* todo */);
                         }
 
                         context.OperationDescription.Operation.Parameters.Add(operationParameter);
