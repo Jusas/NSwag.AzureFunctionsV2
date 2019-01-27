@@ -1,3 +1,12 @@
+
+###
+
+GET http://localhost:7071/api/swagger
+
+###
+
+GET http://localhost:7071/api/Function1?foo=a
+
 ### PostPrimitiveTypeAnnotation
 
 POST http://localhost:7071/api/PostPrimitiveTypeAnnotation
@@ -28,10 +37,22 @@ Content-Type: application/json
   }
 }
 
+###
+
+GET http://localhost:7071/api/query-basics?someString=hello
+  &anotherString=world&myObject={"Name": "John"}
+  &numberArray=1&numberArray=2
+  &stringList=foo&stringList=bar
+
+
+###
+GET http://localhost:7071/api/header-basics
+x-my-header: hello world
+x-my-json-header: {"name": "John"}
 
 ###
 
-POST http://localhost:7071/api/post-object
+POST http://localhost:7071/api/post-object-required
 Content-Type: application/json
 
 {
@@ -44,16 +65,15 @@ Content-Type: application/json
 POST http://localhost:7071/api/post-object
 Content-Type: application/xml
 
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-   <boolean>true</boolean>
-   <name>John</name>
-   <numbers>
-      <element>1</element>
-      <element>2</element>
-      <element>3</element>
-   </numbers>
-</root>
+<MyObject>
+   <Boolean>true</Boolean>
+   <Name>John</Name>
+   <Numbers>
+      <int>1</int>
+      <int>2</int>
+      <int>3</int>
+   </Numbers>
+</MyObject>
 
 ### someString=hello&someObject=%7B%22Name%22%3A%22John%22%2C%22Bool%22%3A%22true%22%7D&someInteger=123&stringList=5&stringList=6&stringList=7&enumArray=0&enumArray=1
 

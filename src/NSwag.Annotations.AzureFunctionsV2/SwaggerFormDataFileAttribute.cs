@@ -5,7 +5,7 @@ namespace NSwag.Annotations.AzureFunctionsV2
     /// <summary>
     /// Indicates that the request body of this method is a file (multipart/form-data).
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class SwaggerFormDataFileAttribute : Attribute
     {
         /// <summary>

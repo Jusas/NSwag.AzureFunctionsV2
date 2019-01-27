@@ -10,7 +10,6 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2
 {
-    // TODO: warn on unsupported swagger attributes in function parametersa.
     public class AzureFunctionsV2ToSwaggerGenerator
     {
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
@@ -32,6 +31,11 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             _schemaGenerator = schemaGenerator;
         }
 
+        /// <summary>
+        /// Returns Azure Function classes from an assembly.
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
         public static IEnumerable<Type> GetAzureFunctionClasses(Assembly assembly)
         {
             // Get classes that are: 1) static, 2) have static methods that have the FunctionName attribute, 3) are not ignored.
@@ -162,7 +166,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                     return false;
             }
 
-            // TODO: find out what exactly are we doing here.
+            
             // 2. Run from class attributes
             var operationProcessorAttribute = methodInfo.DeclaringType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -179,11 +183,15 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                 if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
                     return false;
             }
-
+            
             return true;
         }
 
-
+        /// <summary>
+        /// Get methods from a class type which are Azure Functions.
+        /// </summary>
+        /// <param name="azureFunctionStaticClassType"></param>
+        /// <returns></returns>
         private static IEnumerable<MethodInfo> GetActionMethods(Type azureFunctionStaticClassType)
         {
             var methods = azureFunctionStaticClassType.GetMethods(BindingFlags.Static | BindingFlags.Public);
@@ -195,13 +203,20 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             return methods;
         }
 
+        /// <summary>
+        /// Get the HTTP paths of an Azure Function.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
         private IEnumerable<string> GetHttpPaths(MethodInfo method)
         {
+            // Default route is /api/<FunctionName>
             var defaultMethodName = method.GetCustomAttributes()
                 .Single(x => x.GetType().Name == "FunctionNameAttribute")
                 .TryGetPropertyValue("Name", default(string));
             var routeTemplate = defaultMethodName;
             
+            // If route is defined in the HttpTrigger, we grab that.
             var httpRequestParameter = method.GetParameters()
                 .SingleOrDefault(x => x.ParameterType.Name == "HttpRequest");
             var httpTriggerAttribute = httpRequestParameter?.GetCustomAttributes()
@@ -224,8 +239,14 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             return httpPaths;
         }
 
+        /// <summary>
+        /// Get the supported HTTP methods of an Azure Function.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
         private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethods(MethodInfo method)
         {
+            // Grab the methods from the HttpTrigger.
             var httpRequestParameter = method.GetParameters()
                 .SingleOrDefault(x => x.ParameterType.Name == "HttpRequest");
             var httpTriggerAttribute = httpRequestParameter?.GetCustomAttributes()
@@ -308,6 +329,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             yield return path;
         }
 
+        /// <summary>
+        /// Create a Swagger document with settings applied.
+        /// </summary>
+        /// <returns></returns>
         private async Task<SwaggerDocument> CreateDocumentAsync()
         {
             var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ?

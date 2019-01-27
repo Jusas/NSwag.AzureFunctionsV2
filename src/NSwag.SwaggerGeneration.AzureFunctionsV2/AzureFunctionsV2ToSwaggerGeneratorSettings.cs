@@ -14,12 +14,6 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             OperationProcessors.Add(new OperationSecurityScopeProcessor());
         }
 
-        /// <summary>Gets or sets the default Web API URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').</summary>
-        // public string DefaultUrlTemplate { get; set; } = "api/{controller}/{id?}";
-
-        /// <summary>Gets or sets a value indicating whether the controllers are hosted by ASP.NET Core.</summary>
-        // public bool IsAspNetCore { get; set; }
-
         /// <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
         public bool AddMissingPathParameters { get; set; }
     }

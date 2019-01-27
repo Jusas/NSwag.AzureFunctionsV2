@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AzureFunctionsV2.HttpExtensions.Annotations;
 using AzureFunctionsV2.HttpExtensions.Infrastructure;
@@ -9,6 +11,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using NJsonSchema.Infrastructure;
+using NSwag.Annotations.AzureFunctionsV2;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
 {
@@ -19,6 +23,18 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             public string Name { get; set; }
         }
 
+        // Note: need to generate and copy the XML doc to the bin folder (copy to output dir puts it to the wrong dir)
+
+        /// <summary>
+        /// This is a summary.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="simpleQueryParam">Simple query param</param>
+        /// <param name="secondQueryParam">Blah</param>
+        /// <param name="objectQueryParam"></param>
+        /// <param name="header"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
         [FunctionName("Function1")]
         public static async Task<IActionResult> Basics(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
@@ -28,9 +44,11 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             [HttpHeader(Name = "x-my-header")]HttpParam<string> header,
             ILogger log)
         {
+
             return new OkObjectResult("ok");
         }
 
+        [SwaggerAuthorize()]
         [FunctionName("Function2")]
         public static async Task<IActionResult> PostBody(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "my/url")] HttpRequest req,

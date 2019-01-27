@@ -30,14 +30,16 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
-            if (context.OperationDescription.Operation.Security == null)
-                context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
-
             var scopes = GetScopes(context.OperationDescription, context.MethodInfo);
-            context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
+            if (scopes.Any())
             {
-                { _name, scopes }
-            });
+                if (context.OperationDescription.Operation.Security == null)
+                    context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
+                context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
+                {
+                    { _name, scopes }
+                });
+            }
 
             return Task.FromResult(true);
         }

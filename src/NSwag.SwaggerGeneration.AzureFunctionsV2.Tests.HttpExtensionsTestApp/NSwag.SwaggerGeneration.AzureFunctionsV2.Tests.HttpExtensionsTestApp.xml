@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp</name>
+    </assembly>
+    <members>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.Function1.Basics(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.Function1.MyObject},AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            This is a summary.
+            </summary>
+            <param name="req"></param>
+            <param name="simpleQueryParam">Simple query param</param>
+            <param name="secondQueryParam">Blah</param>
+            <param name="objectQueryParam"></param>
+            <param name="header"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
