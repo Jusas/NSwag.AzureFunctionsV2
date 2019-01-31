@@ -366,6 +366,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
                 operationDescription.Operation.Consumes = new List<string> { "multipart/form-data" };
+            else if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData))
+                operationDescription.Operation.Consumes = new List<string>() {"application/x-www-form-urlencoded"};
         }
 
         private void RemoveUnusedPathParameters(SwaggerOperationDescription operationDescription, string httpPath)

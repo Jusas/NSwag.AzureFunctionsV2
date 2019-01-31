@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.Azu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp.csproj", "{04548CCE-122F-4A92-9834-F6EE9C4F084E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.csproj", "{25861D28-1E5D-40C8-BCCC-5074550090C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.csproj", "{25861D28-1E5D-40C8-BCCC-5074550090C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

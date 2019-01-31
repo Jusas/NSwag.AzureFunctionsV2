@@ -16,5 +16,112 @@
             <param name="log"></param>
             <returns></returns>
         </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerAuthorizeAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Default SwaggerAuthorizeAttribute
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerAuthorizeAttribute2(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerAuthorizeAttribute with policy and roles
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerFormDataAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerFormDataAttribute that is required, is string
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerFormDataFileAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerFormDataFile that is single file
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerFormDataFileAttribute2(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerFormDataFile that is multifile
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerQueryParamAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerQueryParamAttribute that is string, not required
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerQueryParamAttribute2(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerQueryParamAttribute that is int, not required
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerQueryParamAttribute3(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerQueryParamAttribute that is list of int, not required
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerRequestBodyTypeAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerRequestBodyTypeAttribute that is Person, required
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerRequestHeaderAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerRequestHeaderAttribute that is string, not required
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsQueryParams1(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Query parameter of type string, name 'qp'
+            </summary>
+            <param name="req"></param>
+            <param name="queryParam"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsQueryParams2(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.Collections.Generic.List{System.Int32}},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Query param of type List&lt;string&gt;, not required
+            </summary>
+            <param name="req"></param>
+            <param name="queryParam"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsQueryParams3(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.Dog},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Query param of type Dog
+            </summary>
+            <param name="req"></param>
+            <param name="queryParam"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

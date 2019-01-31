@@ -48,7 +48,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             return staticAzureFunctionClasses;
         }
 
-        public async Task<SwaggerDocument> GenerateForAzureFunctionClassesAsync(IEnumerable<Type> azureFunctionClassTypes)
+        public async Task<SwaggerDocument> GenerateForAzureFunctionClassesAsync(IEnumerable<Type> azureFunctionClassTypes, 
+            IList<string> functionNames)
         {
             var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
@@ -58,7 +59,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             {
                 var generator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
                 var isIncluded = await GenerateForAzureFunctionClassAsync(document, azureFunctionClassType, 
-                    generator, schemaResolver);
+                    generator, schemaResolver, functionNames);
                 if(isIncluded)
                     usedAzureFunctionClassTypes.Add(azureFunctionClassType);
             }
@@ -76,20 +77,26 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
 
         public Task<SwaggerDocument> GenerateForAzureFunctionClassAsync<TAzureFunctionClass>()
         {
-            return GenerateForAzureFunctionClassesAsync(new[] { typeof(TAzureFunctionClass) });
+            return GenerateForAzureFunctionClassesAsync(new[] { typeof(TAzureFunctionClass) }, null);
         }
 
         public Task<SwaggerDocument> GenerateForAzureFunctionClassAsync(Type azureFunctionClassType)
         {
-            return GenerateForAzureFunctionClassesAsync(new[] { azureFunctionClassType });
+            return GenerateForAzureFunctionClassesAsync(new[] { azureFunctionClassType }, null);
+        }
+
+        public Task<SwaggerDocument> GenerateForAzureFunctionClassAndSpecificMethodsAsync(Type azureFunctionClassType,
+            IList<string> functionNames)
+        {
+            return GenerateForAzureFunctionClassesAsync(new[] { azureFunctionClassType }, functionNames);
         }
 
         private async Task<bool> GenerateForAzureFunctionClassAsync(SwaggerDocument document, Type staticAzureFunctionClassType,
-            SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+            SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver, IList<string> functionNames)
         {
             var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
 
-            foreach (var method in GetActionMethods(staticAzureFunctionClassType))
+            foreach (var method in GetActionMethods(staticAzureFunctionClassType, functionNames))
             {
                 var httpPaths = GetHttpPaths(method);
                 var httpMethods = GetSupportedHttpMethods(method);
@@ -190,15 +197,25 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// <summary>
         /// Get methods from a class type which are Azure Functions.
         /// </summary>
-        /// <param name="azureFunctionStaticClassType"></param>
+        /// <param name="azureFunctionStaticClassType">The Function App static class type</param>
+        /// <param name="functionNames">The list of Function names to include. If null, will include all Functions,
+        /// unless ignored via ignore attributes.</param>
         /// <returns></returns>
-        private static IEnumerable<MethodInfo> GetActionMethods(Type azureFunctionStaticClassType)
+        private static IEnumerable<MethodInfo> GetActionMethods(Type azureFunctionStaticClassType, IList<string> functionNames)
         {
             var methods = azureFunctionStaticClassType.GetMethods(BindingFlags.Static | BindingFlags.Public);
             methods = methods.Where(x => x.GetCustomAttributes().Any(a => a.GetType().Name == "FunctionNameAttribute")).ToArray();
             methods = methods.Where(x => x.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" &&
                                                              a.GetType().Name != "NonActionAttribute")).ToArray();
             methods = methods.Where(x => x.GetParameters().Any(p => p.ParameterType.Name == "HttpRequest")).ToArray();
+            if (functionNames != null)
+            {
+                methods = methods.Where(x =>
+                        functionNames.Any(f => f.Equals(
+                            x.GetCustomAttributes().First(a => a.GetType().Name == "FunctionNameAttribute")
+                                .TryGetPropertyValue<string>("Name"), StringComparison.OrdinalIgnoreCase)))
+                    .ToArray();
+            }
 
             return methods;
         }
@@ -229,7 +246,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             }
 
             var httpPaths = ExpandOptionalHttpPathParameters(routeTemplate, method)
-                .Select(x => "api/" + x
+                .Select(x => "/api/" + x
                                  .Replace("[", "{")
                                  .Replace("]", "}")
                                  .Replace("{*", "{")

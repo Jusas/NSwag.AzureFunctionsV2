@@ -72,6 +72,18 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             return new OkObjectResult("ok");
         }
 
+        [Consumes("application/www-form-url-encoded")]
+        [FunctionName("Function4")]
+        public static async Task<IActionResult> PostFormObject(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "formobj")] HttpRequest req,
+            [HttpForm]HttpParam<MyObject> formField,
+            ILogger log)
+        {
+            return new OkObjectResult("ok");
+        }
+
+        [SwaggerResponse(200, typeof(string), Description = "default ok")]
+        [SwaggerResponse(400, typeof(string), Description = "bad request")]
         [FunctionName("swagger")]
         public static async Task<IActionResult> Swagger(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,

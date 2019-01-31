@@ -30,7 +30,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.ProcessorUtils
             collection.HeaderAttributes = method.GetCustomAttributes()
                 .Where(x => x.GetType().Name == "SwaggerRequestHeaderAttribute").ToArray();
             collection.QueryAttributes = method.GetCustomAttributes()
-                .Where(x => x.GetType().Name == "SwaggerRequestHeaderAttribute").ToArray();
+                .Where(x => x.GetType().Name == "SwaggerQueryParameterAttribute").ToArray();
             collection.UploadFileAttributes = method.GetCustomAttributes()
                 .Where(x => x.GetType().Name == "SwaggerFormDataFileAttribute").ToArray();
             collection.FormDataAttributes = method.GetCustomAttributes()
