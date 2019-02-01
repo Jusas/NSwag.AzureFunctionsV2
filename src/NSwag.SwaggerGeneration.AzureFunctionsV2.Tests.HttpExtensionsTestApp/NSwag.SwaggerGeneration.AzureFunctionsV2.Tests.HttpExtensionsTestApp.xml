@@ -107,7 +107,7 @@
         </member>
         <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsQueryParams2(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.Collections.Generic.List{System.Int32}},Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Query param of type List&lt;string&gt;, not required
+            Query param of type List&lt;int&gt;, not required
             </summary>
             <param name="req"></param>
             <param name="queryParam"></param>
@@ -120,6 +120,88 @@
             </summary>
             <param name="req"></param>
             <param name="queryParam"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsHeaders1(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Header of type string, x-header, not required
+            </summary>
+            <param name="req"></param>
+            <param name="header"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsHeaders2(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.Dog},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Header of type Dog, x-header, required
+            </summary>
+            <param name="req"></param>
+            <param name="header"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsBody1(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.Dog},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Body of type Dog, not required
+            </summary>
+            <param name="req"></param>
+            <param name="body"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsBody2(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Body of type string, required
+            </summary>
+            <param name="req"></param>
+            <param name="body"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsBody3(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.Dog[]},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Body of type Dog[], required
+            </summary>
+            <param name="req"></param>
+            <param name="body"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsBody4(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.Xml.XmlDocument},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Body of type XmlDocument
+            </summary>
+            <param name="req"></param>
+            <param name="body"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsForm1(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            FormData of type string, required
+            </summary>
+            <param name="req"></param>
+            <param name="formField"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsForm2(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.Dog},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            FormData of type Dog, not required
+            </summary>
+            <param name="req"></param>
+            <param name="formField"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsForm3(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{Microsoft.AspNetCore.Http.IFormFile},AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            FormData with IFormFile (required) and a string form field
+            </summary>
+            <param name="req"></param>
+            <param name="file"></param>
+            <param name="formField"></param>
             <param name="log"></param>
             <returns></returns>
         </member>

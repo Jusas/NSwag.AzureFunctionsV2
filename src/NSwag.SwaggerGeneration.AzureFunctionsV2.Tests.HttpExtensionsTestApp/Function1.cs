@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 using NSwag.Annotations;
 using NSwag.Annotations.AzureFunctionsV2;
+using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
 {
@@ -89,8 +90,22 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var generator = new AzureFunctionsV2ToSwaggerGenerator(new AzureFunctionsV2ToSwaggerGeneratorSettings());
-            var document = await generator.GenerateForAzureFunctionClassAsync(typeof(Function1));
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Header key", new SwaggerSecurityScheme()
+            {
+                Name = "Header key",
+                Type = SwaggerSecuritySchemeType.ApiKey,
+                In = SwaggerSecurityApiKeyLocation.Header,
+                Description = "Header key"
+            }));
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var funcClasses = new[]
+            {
+                typeof(Function1), typeof(GenerationAnnotationTests), typeof(HttpExtensionTests),
+                typeof(RouteParamTests)
+            };
+            var document = await generator.GenerateForAzureFunctionClassesAsync(funcClasses, null);
+            
             var json = document.ToJson();
             return new OkObjectResult(json);
         }

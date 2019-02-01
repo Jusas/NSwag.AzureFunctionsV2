@@ -297,9 +297,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                         if (!string.IsNullOrEmpty(annotatedParamName))
                             parameterName = annotatedParamName;
 
-                        operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                            parameterName, /* todo */ httpParamDocumentation,
-                            httpParamContainerValueType, synthesizedAttributes);
+                        if(paramHttpExtensionAttribute.GetType().Name != "HttpBodyAttribute")
+                            operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
+                                parameterName, /* todo */ httpParamDocumentation,
+                                httpParamContainerValueType, synthesizedAttributes);
 
                         if (paramHttpExtensionAttribute.GetType().Name == "HttpFormAttribute")
                         {

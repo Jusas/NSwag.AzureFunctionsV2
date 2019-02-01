@@ -179,6 +179,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].IsRequired.Should().Be(false);
             operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
             operation.ActualParameters[0].Type.Should().Be(NJsonSchema.JsonObjectType.Array);
+            operation.ActualParameters[0].Item.Type.Should().Be(NJsonSchema.JsonObjectType.Integer);
         }
 
         [Fact]
@@ -201,6 +202,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].IsRequired.Should().Be(true);
             operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Body);
             operation.ActualParameters[0].ActualSchema.Type.Should().Be(JsonObjectType.Object);
+            operation.ActualParameters[0].ActualSchema.Should().Be(swaggerDoc.Definitions["Person"]);
         }
 
         [Fact]
@@ -222,6 +224,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Name.Should().Be("x-header");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
             operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Header);
+            operation.ActualParameters[0].Type.Should().Be(JsonObjectType.String);
         }
     }
 }
