@@ -54,14 +54,24 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                 methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());
 
             var authorizeAttributes = allAttributes.Where(a => a.GetType().Name == "SwaggerAuthorizeAttribute").ToList();
-            if (!authorizeAttributes.Any())
+            // HttpExtensions support.
+            var httpExtensionsAuthAttributes = allAttributes.Where(a => a.GetType().Name == "HttpJwtAuthorizeAttribute").ToList();
+
+            if (!authorizeAttributes.Any() && !httpExtensionsAuthAttributes.Any())
                 return Enumerable.Empty<string>();
 
-            return authorizeAttributes
+            var distinctRoles = authorizeAttributes
                 .Select(a => (dynamic)a)
                 .Where(a => a.Roles != null)
                 .SelectMany(a => ((string)a.Roles).Split(','))
-                .Distinct();
+                .Distinct()
+                .ToList();
+
+            if(httpExtensionsAuthAttributes.Any())
+                distinctRoles.Add("");
+
+            return distinctRoles.Distinct();
+
         }
     }
 }

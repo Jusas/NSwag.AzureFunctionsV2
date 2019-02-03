@@ -97,7 +97,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
             var httpPath = context.OperationDescription.Path;
             var position = 1;
 
-            var ignoredParameterTypeNames = new string[] {"HttpRequest", "TraceWriter", "TextWriter", "ILogger"};
+            var ignoredParameterTypeNames = new string[] {"HttpRequest", "TraceWriter", "TextWriter", "ILogger", "ClaimsPrincipal", "CancellationToken"};
             var ignoreAttributeTypeNames = new string[] {"SwaggerIgnoreAttribute", "FromServicesAttribute", "BindNeverAttribute"};
 
             // Ignore parameters that are directly Azure Functions related or explicitly marked as ignored.
