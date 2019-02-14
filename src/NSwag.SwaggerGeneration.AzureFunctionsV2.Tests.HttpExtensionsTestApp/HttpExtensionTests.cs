@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using AzureFunctionsV2.HttpExtensions.Annotations;
+using AzureFunctionsV2.HttpExtensions.Authorization;
 using AzureFunctionsV2.HttpExtensions.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,19 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         {
             public string Name { get; set; }
             public bool IsGoodBoy { get; set; }
+        }
+
+        public class MyAuthorizeAttribute : HttpAuthorizeAttribute
+        {
+            public string Role { get; set; }
+
+            public MyAuthorizeAttribute(Scheme scheme) : base(Scheme.Jwt)
+            {
+            }
+
+            public MyAuthorizeAttribute() : base(Scheme.Jwt)
+            {
+            }
         }
 
         /// <summary>
@@ -215,5 +229,83 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             return new OkResult();
         }
 
+        /// <summary>
+        /// HttpAuthorize attributed (JWT) Function.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="user"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [HttpAuthorize(Scheme.Jwt)]
+        [FunctionName("HttpExtensionsJwtAuth1")]
+        public static async Task<IActionResult> HttpExtensionsJwtAuth1(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpToken]HttpUser user,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// HttpAuthorize-inheriting (JWT) attribute attributed Function.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="user"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [MyAuthorize(Role = "admin")]
+        [FunctionName("HttpExtensionsJwtAuth2")]
+        public static async Task<IActionResult> HttpExtensionsJwtAuth2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpToken]HttpUser user,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// HttpAuthorize attributed (Basic) Function.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [HttpAuthorize(Scheme.Basic)]
+        [FunctionName("HttpExtensionsBasicAuth1")]
+        public static async Task<IActionResult> HttpExtensionsBasicAuth1(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// HttpAuthorize attributed (ApiKey in header) Function.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [HttpAuthorize(Scheme.HeaderApiKey)]
+        [FunctionName("HttpExtensionsApiKeyAuth1")]
+        public static async Task<IActionResult> HttpExtensionsApiKeyAuth1(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// HttpAuthorize attributed (ApiKey in query param) Function.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [HttpAuthorize(Scheme.QueryApiKey)]
+        [FunctionName("HttpExtensionsApiKeyAuth2")]
+        public static async Task<IActionResult> HttpExtensionsApiKeyAuth2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
     }
 }

@@ -10,12 +10,13 @@
     <DocumentationFile>H:\dev\NSwag.AzureFunctions\src\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AzureFunctionsV2.HttpExtensions" Version="1.0.0" />
+    <PackageReference Include="AzureFunctionsV2.HttpExtensions" Version="1.2.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations.AzureFunctionsV2\NSwag.Annotations.AzureFunctionsV2.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup.csproj" />
     <ProjectReference Include="..\NSwag.SwaggerGeneration.AzureFunctionsV2\NSwag.SwaggerGeneration.AzureFunctionsV2.csproj" />
   </ItemGroup>
   <ItemGroup>

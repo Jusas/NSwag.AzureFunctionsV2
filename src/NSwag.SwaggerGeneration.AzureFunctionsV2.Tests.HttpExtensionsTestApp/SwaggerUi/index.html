@@ -35,26 +35,40 @@
 
     <script src="./swagger-ui-bundle.js"> </script>
     <script src="./swagger-ui-standalone-preset.js"> </script>
-    <script>
-    window.onload = function() {
-      // Begin Swagger UI call region
-      const ui = SwaggerUIBundle({
-        url: "http://localhost:7071/api/swagger",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
-        ],
-        layout: "StandaloneLayout"
-      })
-      // End Swagger UI call region
+  <script>
+      if (!window.isOpenReplaced) {
+          window.open = function (open) {
+              return function (url) {
+                  url = url
+                      // Swagger UI does not support custom response_type parameters. Azure Active Directory requires an 'id_token' value to
+                      // be passed instead of 'token' (See https://github.com/swagger-api/swagger-ui/issues/1974).
+                      .replace('response_type=token', 'response_type=id_token&nonce=123');
+                  console.log(url);
+                  return open.call(window, url);
+              };
+          }(window.open);
+          window.isOpenReplaced = true;
+      }
+      window.onload = function() {
+          // Begin Swagger UI call region
+          const ui = SwaggerUIBundle({
+              url: "http://localhost:7071/api/swagger",
+              oauth2RedirectUrl: "http://localhost:7071/api/swaggerui/oauth2-redirect.html",
+              dom_id: '#swagger-ui',
+              deepLinking: true,
+              presets: [
+                  SwaggerUIBundle.presets.apis,
+                  SwaggerUIStandalonePreset
+              ],
+              plugins: [
+                  SwaggerUIBundle.plugins.DownloadUrl
+              ],
+              layout: "StandaloneLayout"
+          })
+          // End Swagger UI call region
 
-      window.ui = ui
-    }
+          window.ui = ui
+      }
   </script>
   </body>
 </html>

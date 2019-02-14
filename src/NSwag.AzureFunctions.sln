@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.Azu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.csproj", "{25861D28-1E5D-40C8-BCCC-5074550090C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup.csproj", "{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{25861D28-1E5D-40C8-BCCC-5074550090C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25861D28-1E5D-40C8-BCCC-5074550090C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25861D28-1E5D-40C8-BCCC-5074550090C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{CB3EEADF-D5DA-434F-8F19-A7A014F62349} = {331BE0CD-3B6D-4B7A-B954-9732670FAD85}
 		{04548CCE-122F-4A92-9834-F6EE9C4F084E} = {331BE0CD-3B6D-4B7A-B954-9732670FAD85}
 		{25861D28-1E5D-40C8-BCCC-5074550090C8} = {331BE0CD-3B6D-4B7A-B954-9732670FAD85}
+		{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F} = {331BE0CD-3B6D-4B7A-B954-9732670FAD85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7AE073F0-30A4-4CC8-9615-D484A0AD450C}

@@ -261,7 +261,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethods(MethodInfo method)
+        private IEnumerable<string> GetSupportedHttpMethods(MethodInfo method)
         {
             // Grab the methods from the HttpTrigger.
             var httpRequestParameter = method.GetParameters()
@@ -269,7 +269,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             var httpTriggerAttribute = httpRequestParameter?.GetCustomAttributes()
                 .SingleOrDefault(x => x.GetType().Name == "HttpTriggerAttribute");
             var methodsPropertyValue = httpTriggerAttribute.TryGetPropertyValue("Methods", default(string[]));
-            List<SwaggerOperationMethod> httpMethods = new List<SwaggerOperationMethod>();
+            List<string> httpMethods = new List<string>();
 
             if(methodsPropertyValue != null && methodsPropertyValue.Any())
             {

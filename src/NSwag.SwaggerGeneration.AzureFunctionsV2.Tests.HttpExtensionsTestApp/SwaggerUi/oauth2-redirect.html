@@ -26,6 +26,11 @@
         ) : {}
 
         isValid = qp.state === sentState
+        if (qp.id_token) { // hardly ideal but...
+            qp.token = qp.id_token;
+            qp.access_token = qp.id_token;
+        }
+            
 
         if ((
           oauth2.auth.schema.get("flow") === "accessCode"||
@@ -62,6 +67,6 @@
         } else {
             oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl});
         }
-        window.close();
+        //window.close();
     }
 </script>

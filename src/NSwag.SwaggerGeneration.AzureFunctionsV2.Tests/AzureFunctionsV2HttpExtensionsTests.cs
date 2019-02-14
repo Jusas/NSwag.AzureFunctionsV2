@@ -242,5 +242,43 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.FormData);
             operation.ActualParameters[0].ActualSchema.Should().Be(swaggerDoc.Definitions["Dog"]);
         }
+
+        [Fact]
+        public async Task Should_create_authorized_operation_from_HttpJwtAuthorizeAttributed_function()
+        {
+            // Arrange
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var functionName = nameof(HttpExtensionTests.HttpExtensionsJwtAuth1);
+
+            // Act
+            var swaggerDoc = await generator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(
+                typeof(HttpExtensionTests), new List<string>() { functionName });
+
+            // Assert
+            var operation = swaggerDoc.Operations.First().Operation;
+            operation.ActualParameters.Count.Should().Be(0); // HttpUser is not a HttpParam
+            operation.Security.Count.Should().Be(1);
+            operation.Security.First().Keys.Count.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task Should_create_authorized_operation_from_HttpJwtAuthorizeAttribute_inheriting_attributed_function()
+        {
+            // Arrange
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var functionName = nameof(HttpExtensionTests.HttpExtensionsJwtAuth2);
+
+            // Act
+            var swaggerDoc = await generator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(
+                typeof(HttpExtensionTests), new List<string>() { functionName });
+
+            // Assert
+            var operation = swaggerDoc.Operations.First().Operation;
+            operation.ActualParameters.Count.Should().Be(0); // HttpUser is not a HttpParam
+            operation.Security.Count.Should().Be(1);
+            operation.Security.First().Keys.Count.Should().Be(1);
+        }
     }
 }

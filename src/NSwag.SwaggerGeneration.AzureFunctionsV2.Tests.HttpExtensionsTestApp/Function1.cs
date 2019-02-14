@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,7 @@ using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 using NSwag.Annotations;
 using NSwag.Annotations.AzureFunctionsV2;
+using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
 using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
@@ -91,13 +93,48 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             ILogger log)
         {
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
-            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Header key", new SwaggerSecurityScheme()
+
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", SwaggerSecuritySchemeType.OpenIdConnect));
+            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme()
             {
-                Name = "Header key",
-                Type = SwaggerSecuritySchemeType.ApiKey,
-                In = SwaggerSecurityApiKeyLocation.Header,
-                Description = "Header key"
+                Type = SwaggerSecuritySchemeType.OAuth2,
+                Flow = SwaggerOAuth2Flow.Implicit,
+                Flows = new OpenApiOAuthFlows()
+                {
+                    Implicit = new OpenApiOAuthFlow()
+                    {
+                        AuthorizationUrl = "https://jusas-tests.eu.auth0.com/authorize",
+                        Scopes = new Dictionary<string, string>() { {"openid", "openid"}, {"profile", "profile"}, {"name", "name"} },
+                        TokenUrl = "https://jusas-tests.eu.auth0.com/oauth/token"
+                    }
+                },
+                Description = "Token"
             }));
+
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Basic", SwaggerSecuritySchemeType.Basic));
+            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Basic", new SwaggerSecurityScheme()
+            {
+                Type = SwaggerSecuritySchemeType.Basic,
+                Scheme = "Basic",
+                Description = "Basic auth"
+            }));
+
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("HApiKey", SwaggerSecuritySchemeType.ApiKey, SwaggerSecurityApiKeyLocation.Header));
+            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("HApiKey", new SwaggerSecurityScheme()
+            {
+                Type = SwaggerSecuritySchemeType.ApiKey,
+                Name = "x-apikey",
+                In = SwaggerSecurityApiKeyLocation.Header
+            }));
+
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("QApiKey", SwaggerSecuritySchemeType.ApiKey, SwaggerSecurityApiKeyLocation.Query));
+            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("QApiKey", new SwaggerSecurityScheme()
+            {
+                Type = SwaggerSecuritySchemeType.ApiKey,
+                Name = "apikey",
+                In = SwaggerSecurityApiKeyLocation.Query
+            }));
+
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var funcClasses = new[]
             {

@@ -41,7 +41,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        [SwaggerAuthorize("MyPolicy", "role1,role2")]
+        [SwaggerAuthorize(AuthScheme.HeaderApiKey)]
         [FunctionName("SwaggerAuthorizeAttribute2")]
         public static async Task<IActionResult> SwaggerAuthorizeAttribute2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,

@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSwag.Annotations" Version="12.0.10" />
-    <PackageReference Include="NSwag.SwaggerGeneration" Version="12.0.10" />
+    <PackageReference Include="NSwag.Annotations" Version="12.0.13" />
+    <PackageReference Include="NSwag.SwaggerGeneration" Version="12.0.13" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 

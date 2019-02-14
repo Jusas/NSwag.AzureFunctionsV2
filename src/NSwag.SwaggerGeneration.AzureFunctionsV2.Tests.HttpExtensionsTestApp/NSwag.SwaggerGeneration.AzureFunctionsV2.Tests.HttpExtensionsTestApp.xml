@@ -205,5 +205,47 @@
             <param name="log"></param>
             <returns></returns>
         </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsJwtAuth1(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpUser,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            HttpAuthorize attributed (JWT) Function.
+            </summary>
+            <param name="req"></param>
+            <param name="user"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsJwtAuth2(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpUser,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            HttpAuthorize-inheriting (JWT) attribute attributed Function.
+            </summary>
+            <param name="req"></param>
+            <param name="user"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsBasicAuth1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            HttpAuthorize attributed (Basic) Function.
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsApiKeyAuth1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            HttpAuthorize attributed (ApiKey in header) Function.
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsApiKeyAuth2(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            HttpAuthorize attributed (ApiKey in query param) Function.
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
