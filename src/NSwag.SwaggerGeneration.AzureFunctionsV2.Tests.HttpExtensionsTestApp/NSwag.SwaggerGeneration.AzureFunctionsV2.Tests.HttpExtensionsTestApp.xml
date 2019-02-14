@@ -26,7 +26,15 @@
         </member>
         <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerAuthorizeAttribute2(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            SwaggerAuthorizeAttribute with policy and roles
+            SwaggerAuthorizeAttribute with header api key
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerAuthorizeAttribute3(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            SwaggerAuthorizeAttribute with query api key
             </summary>
             <param name="req"></param>
             <param name="log"></param>

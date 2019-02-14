@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NJsonSchema;
+using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
 using NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp;
 using Xunit;
 
@@ -244,10 +245,11 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         }
 
         [Fact]
-        public async Task Should_create_authorized_operation_from_HttpJwtAuthorizeAttributed_function()
+        public async Task Should_create_authorized_operation_from_HttpAuthorizeAttributed_function()
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", SwaggerSecuritySchemeType.OAuth2));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(HttpExtensionTests.HttpExtensionsJwtAuth1);
 
@@ -263,10 +265,11 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         }
 
         [Fact]
-        public async Task Should_create_authorized_operation_from_HttpJwtAuthorizeAttribute_inheriting_attributed_function()
+        public async Task Should_create_authorized_operation_from_HttpAuthorizeAttribute_inheriting_attributed_function()
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", SwaggerSecuritySchemeType.OAuth2));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(HttpExtensionTests.HttpExtensionsJwtAuth2);
 

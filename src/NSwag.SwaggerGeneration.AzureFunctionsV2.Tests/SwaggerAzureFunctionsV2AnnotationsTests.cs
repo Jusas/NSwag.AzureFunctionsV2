@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NJsonSchema;
+using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
 using NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp;
 using Xunit;
 
@@ -19,6 +20,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Basic", SwaggerSecuritySchemeType.Basic));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(GenerationAnnotationTests.SwaggerAuthorizeAttribute1);
 
@@ -31,10 +33,11 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         }
 
         [Fact]
-        public async Task Should_include_security_spec_in_SwaggerDocument_from_authorize_attribute_with_policy_and_roles()
+        public async Task Should_include_security_spec_in_SwaggerDocument_from_authorize_attribute_with_scheme_apikey()
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("HdrApiKey", SwaggerSecuritySchemeType.ApiKey));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(GenerationAnnotationTests.SwaggerAuthorizeAttribute2);
 
@@ -45,8 +48,26 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             // Assert
             var operation = swaggerDoc.Operations.First().Operation;
             Assert.Equal(1, operation.ActualSecurity.Count);
-            operation.ActualSecurity.First().Should().ContainKey("Bearer");
-            operation.ActualSecurity.First()["Bearer"].Should().Contain(new[] {"role1", "role2"});
+            operation.ActualSecurity.First().Should().ContainKey("HdrApiKey");
+        }
+
+        [Fact]
+        public async Task Should_include_security_spec_in_SwaggerDocument_from_authorize_attribute_with_scheme_apikey_in_query()
+        {
+            // Arrange
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("QApiKey", SwaggerSecuritySchemeType.ApiKey, SwaggerSecurityApiKeyLocation.Query));
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var functionName = nameof(GenerationAnnotationTests.SwaggerAuthorizeAttribute3);
+
+            // Act
+            var swaggerDoc = await generator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(
+                typeof(GenerationAnnotationTests), new List<string>() { functionName });
+
+            // Assert
+            var operation = swaggerDoc.Operations.First().Operation;
+            Assert.Equal(1, operation.ActualSecurity.Count);
+            operation.ActualSecurity.First().Should().ContainKey("QApiKey");
         }
 
         [Fact]

@@ -62,7 +62,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     authorizeAttributes.Any(a => a.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "Basic");
                 return basicAuthRequirement;
             }
-            if (_securitySchemeType == SwaggerSecuritySchemeType.ApiKey && _location == SwaggerSecurityApiKeyLocation.Header)
+            if (_securitySchemeType == SwaggerSecuritySchemeType.ApiKey && (_location == SwaggerSecurityApiKeyLocation.Header || _location == null))
             {
                 var apiKeyAuthRequirement = httpExtensionsAuthAttributes.Any(x =>
                     x.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "HeaderApiKey") ||

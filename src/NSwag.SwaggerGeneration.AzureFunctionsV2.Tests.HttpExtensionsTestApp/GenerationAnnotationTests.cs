@@ -36,7 +36,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         }
 
         /// <summary>
-        /// SwaggerAuthorizeAttribute with policy and roles
+        /// SwaggerAuthorizeAttribute with header api key
         /// </summary>
         /// <param name="req"></param>
         /// <param name="log"></param>
@@ -44,6 +44,21 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         [SwaggerAuthorize(AuthScheme.HeaderApiKey)]
         [FunctionName("SwaggerAuthorizeAttribute2")]
         public static async Task<IActionResult> SwaggerAuthorizeAttribute2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// SwaggerAuthorizeAttribute with query api key
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [SwaggerAuthorize(AuthScheme.QueryApiKey)]
+        [FunctionName("SwaggerAuthorizeAttribute3")]
+        public static async Task<IActionResult> SwaggerAuthorizeAttribute3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
