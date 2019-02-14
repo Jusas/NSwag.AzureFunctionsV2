@@ -12,11 +12,13 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 using NSwag.Annotations;
 using NSwag.Annotations.AzureFunctionsV2;
 using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
+using NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup;
 using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
@@ -41,6 +43,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [Produces(typeof(string))]
+        [SwaggerResponse(200, typeof(string), Description = "default ok")]
+        [SwaggerResponse(400, typeof(string), Description = "bad request")]
         [FunctionName("Function1")]
         public static async Task<IActionResult> Basics(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
@@ -85,68 +89,26 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             return new OkObjectResult("ok");
         }
 
-        [SwaggerResponse(200, typeof(string), Description = "default ok")]
-        [SwaggerResponse(400, typeof(string), Description = "bad request")]
         [FunctionName("swagger")]
         public static async Task<IActionResult> Swagger(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
+            HttpRequest req,
             ILogger log)
         {
-            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
-
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", SwaggerSecuritySchemeType.OpenIdConnect));
-            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme()
-            {
-                Type = SwaggerSecuritySchemeType.OAuth2,
-                Flow = SwaggerOAuth2Flow.Implicit,
-                Flows = new OpenApiOAuthFlows()
-                {
-                    Implicit = new OpenApiOAuthFlow()
-                    {
-                        AuthorizationUrl = "https://jusas-tests.eu.auth0.com/authorize",
-                        Scopes = new Dictionary<string, string>() { {"openid", "openid"}, {"profile", "profile"}, {"name", "name"} },
-                        TokenUrl = "https://jusas-tests.eu.auth0.com/oauth/token"
-                    }
-                },
-                Description = "Token"
-            }));
-
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("Basic", SwaggerSecuritySchemeType.Basic));
-            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Basic", new SwaggerSecurityScheme()
-            {
-                Type = SwaggerSecuritySchemeType.Basic,
-                Scheme = "Basic",
-                Description = "Basic auth"
-            }));
-
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("HApiKey", SwaggerSecuritySchemeType.ApiKey, SwaggerSecurityApiKeyLocation.Header));
-            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("HApiKey", new SwaggerSecurityScheme()
-            {
-                Type = SwaggerSecuritySchemeType.ApiKey,
-                Name = "x-apikey",
-                In = SwaggerSecurityApiKeyLocation.Header
-            }));
-
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("QApiKey", SwaggerSecuritySchemeType.ApiKey, SwaggerSecurityApiKeyLocation.Query));
-            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("QApiKey", new SwaggerSecurityScheme()
-            {
-                Type = SwaggerSecuritySchemeType.ApiKey,
-                Name = "apikey",
-                In = SwaggerSecurityApiKeyLocation.Query
-            }));
-
-            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(SwaggerConfiguration.SwaggerGeneratorSettings);
             var funcClasses = new[]
             {
-                typeof(Function1), typeof(GenerationAnnotationTests), typeof(HttpExtensionTests),
+                typeof(Function1),
+                typeof(GenerationAnnotationTests),
+                typeof(HttpExtensionTests),
                 typeof(RouteParamTests)
             };
             var document = await generator.GenerateForAzureFunctionClassesAsync(funcClasses, null);
-            
+
             var json = document.ToJson();
             return new OkObjectResult(json);
         }
-
+        
         [SwaggerIgnore]
         [FunctionName("swaggerui")]
         public static async Task<IActionResult> SwaggerUi(

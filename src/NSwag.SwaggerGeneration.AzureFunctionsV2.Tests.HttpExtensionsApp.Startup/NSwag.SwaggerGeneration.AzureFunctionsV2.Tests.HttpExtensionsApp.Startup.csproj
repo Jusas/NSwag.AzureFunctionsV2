@@ -8,4 +8,9 @@
     <PackageReference Include="AzureFunctionsV2.HttpExtensions" Version="1.2.0-beta2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.Annotations.AzureFunctionsV2\NSwag.Annotations.AzureFunctionsV2.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration.AzureFunctionsV2\NSwag.SwaggerGeneration.AzureFunctionsV2.csproj" />
+  </ItemGroup>
+
 </Project>

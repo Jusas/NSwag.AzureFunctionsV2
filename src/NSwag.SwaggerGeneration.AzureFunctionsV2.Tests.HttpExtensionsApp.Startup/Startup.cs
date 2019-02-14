@@ -40,6 +40,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Start
                     AuthorizationFilter = async (principal, token, attributes) => { }
                 };
             });
+            
+
         }
     }
 }
