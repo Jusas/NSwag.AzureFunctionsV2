@@ -231,7 +231,7 @@ JSON), and the an `OperationSecurityProcessor` (which gets run for all the Funct
 you tell to bind Basic authentication schemes to a security definition called "Basic",
 resulting in the above Swagger JSON.
 
-More advanced examples (including OAuth2 and ApiKey configurations) can be found from the [wiki](https://github.com/Jusas/NSwag.NSwag.AzureFunctionsV2/wiki).
+More advanced examples (including OAuth2 and ApiKey configurations) can be found from the [wiki](https://github.com/Jusas/NSwag.AzureFunctionsV2/wiki).
 
 
 ## Known issues
