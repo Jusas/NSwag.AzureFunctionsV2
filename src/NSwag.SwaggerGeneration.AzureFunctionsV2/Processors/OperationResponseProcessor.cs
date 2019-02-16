@@ -6,6 +6,9 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
 {
+    /// <summary>
+    /// Processes operation response annotations/attributes into the swagger document.
+    /// </summary>
     public class OperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor
     {
 

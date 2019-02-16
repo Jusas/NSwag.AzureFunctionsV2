@@ -10,21 +10,28 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2
 {
+    /// <summary>
+    /// The main SwaggerGenerator that produces the Swagger document out of Azure Function assemblies.
+    /// </summary>
     public class AzureFunctionsV2ToSwaggerGenerator
     {
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
+
+        /// <summary>
+        /// Swagger generator settings.
+        /// </summary>
         public AzureFunctionsV2ToSwaggerGeneratorSettings Settings { get; }
 
         /// <summary>Initializes a new instance of the <see cref="AzureFunctionsV2ToSwaggerGenerator" /> class.</summary>
-        /// <param name="settings">The settings.</param>
+        /// <param name="settings">The settings</param>
         public AzureFunctionsV2ToSwaggerGenerator(AzureFunctionsV2ToSwaggerGeneratorSettings settings)
             : this(settings, new SwaggerJsonSchemaGenerator(settings))
         {
         }
 
         /// <summary>Initializes a new instance of the <see cref="AzureFunctionsV2ToSwaggerGenerator" /> class.</summary>
-        /// <param name="settings">The settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
+        /// <param name="settings">The settings</param>
+        /// <param name="schemaGenerator">The schema generator</param>
         public AzureFunctionsV2ToSwaggerGenerator(AzureFunctionsV2ToSwaggerGeneratorSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             Settings = settings;
@@ -34,8 +41,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// <summary>
         /// Returns Azure Function classes from an assembly.
         /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
+        /// <param name="assembly">The assembly to scan for static classes with Functions</param>
+        /// <returns>The Azure Function class types</returns>
         public static IEnumerable<Type> GetAzureFunctionClasses(Assembly assembly)
         {
             // Get classes that are: 1) static, 2) have static methods that have the FunctionName attribute, 3) are not ignored.
@@ -48,6 +55,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             return staticAzureFunctionClasses;
         }
 
+        /// <summary>
+        /// Generates Swagger document for the specified Azure Function classes, including only the listed Functions.
+        /// </summary>
+        /// <param name="azureFunctionClassTypes">The Azure Function classes (static classes)</param>
+        /// <param name="functionNames">The function names (defined by FunctionNameAttribute)</param>
+        /// <returns>The generated Swagger document</returns>
         public async Task<SwaggerDocument> GenerateForAzureFunctionClassesAsync(IEnumerable<Type> azureFunctionClassTypes, 
             IList<string> functionNames)
         {
@@ -75,21 +88,38 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             return document;
         }
 
+        /// <summary>
+        /// Generates Swagger document for the specified Azure Function class type.
+        /// </summary>
+        /// <typeparam name="TAzureFunctionClass">The <see cref="Type"/> of the class</typeparam>
+        /// <returns>The generated Swagger document</returns>
         public Task<SwaggerDocument> GenerateForAzureFunctionClassAsync<TAzureFunctionClass>()
         {
             return GenerateForAzureFunctionClassesAsync(new[] { typeof(TAzureFunctionClass) }, null);
         }
 
+        /// <summary>
+        /// Generates Swagger document for the specified Azure Function class type.
+        /// </summary>
+        /// <param name="azureFunctionClassType">The <see cref="Type"/> of the class</param>
+        /// <returns>The generated Swagger document</returns>
         public Task<SwaggerDocument> GenerateForAzureFunctionClassAsync(Type azureFunctionClassType)
         {
             return GenerateForAzureFunctionClassesAsync(new[] { azureFunctionClassType }, null);
         }
 
+        /// <summary>
+        /// Generates Swagger document for the specified Azure Function class type, including only the listed Functions.
+        /// </summary>
+        /// <param name="azureFunctionClassType">The <see cref="Type"/> of the class</param>
+        /// <param name="functionNames">The function names (defined by FunctionNameAttribute)</param>
+        /// <returns>The generated Swagger document</returns>
         public Task<SwaggerDocument> GenerateForAzureFunctionClassAndSpecificMethodsAsync(Type azureFunctionClassType,
             IList<string> functionNames)
         {
             return GenerateForAzureFunctionClassesAsync(new[] { azureFunctionClassType }, functionNames);
         }
+
 
         private async Task<bool> GenerateForAzureFunctionClassAsync(SwaggerDocument document, Type staticAzureFunctionClassType,
             SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver, IList<string> functionNames)

@@ -11,6 +11,12 @@ using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
 {
+    /// <summary>
+    /// Security processor which scans methods for security attributes/annotations.
+    /// <para>
+    /// This should be instantiated per different security scheme (ie. Basic, OAuth2, ApiKey...) you're using.
+    /// </para>
+    /// </summary>
     public class OperationSecurityProcessor : IOperationProcessor
     {
 
@@ -18,6 +24,14 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
         private SwaggerSecuritySchemeType _securitySchemeType;
         private SwaggerSecurityApiKeyLocation? _location;
 
+        /// <summary>
+        /// Initializes the <see cref="OperationSecurityProcessor"/> with the given name (which should match the name of
+        /// your <see cref="SecurityDefinitionAppender"/>) and <see cref="SwaggerSecuritySchemeType"/>.
+        /// </summary>
+        /// <param name="name">The name of your Swagger security definition (which should match the name you gave to
+        /// your <see cref="SecurityDefinitionAppender"/>).</param>
+        /// <param name="type">The type of the scheme.</param>
+        /// <param name="location">If the type was <see cref="SwaggerSecuritySchemeType.ApiKey"/>, the expected location of the key, otherwise null.</param>
         public OperationSecurityProcessor(string name, SwaggerSecuritySchemeType type, SwaggerSecurityApiKeyLocation? location = null)
         {
             _name = name;
@@ -30,7 +44,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
-            var securityRequirement = GetSecurityRequirement(context.OperationDescription, context.MethodInfo);
+            var securityRequirement = GetSecurityRequirement(context.MethodInfo);
 
             if (securityRequirement)
             {
@@ -43,7 +57,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
             return Task.FromResult(true);
         }
 
-        private bool GetSecurityRequirement(SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        private bool GetSecurityRequirement(MethodInfo methodInfo)
         {
             var allAttributes = methodInfo.GetCustomAttributes().Concat(
                 methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());

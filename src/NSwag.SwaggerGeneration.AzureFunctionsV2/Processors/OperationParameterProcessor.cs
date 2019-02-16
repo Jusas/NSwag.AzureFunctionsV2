@@ -14,6 +14,9 @@ using NSwag.SwaggerGeneration.AzureFunctionsV2.ProcessorUtils;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
 {
+    /// <summary>
+    /// The processor that processes the operation parameters into the swagger document.
+    /// </summary>
     public class OperationParameterProcessor : IOperationProcessor
     {
         /// <summary>
@@ -278,9 +281,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     // coming from the usage of AzureFunctionsV2.HttpExtensions package.
                     else if(((ParameterInfo)parameterObj).ParameterType.Name == "HttpParam`1")
                     {
-                        var httpParam = (ParameterInfo) parameterObj;
-                        //return XmlDocumentationExtensions.RemoveLineBreakWhiteSpaces((await parameter.GetXmlDocumentationWithoutLockAsync(await XmlDocumentationExtensions.GetXmlDocumentationPathAsync((object) parameter.Member.Module.Assembly).ConfigureAwait(false)).ConfigureAwait(false)).GetXmlDocumentationText());
-
+                        var httpParam = (ParameterInfo) parameterObj;                        
                         var httpParamDocumentation = await httpParam.GetXmlDocumentationAsync();
                         var httpParamType = httpParam.ParameterType;
 
@@ -301,7 +302,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
 
                         if(paramHttpExtensionAttribute.GetType().Name != "HttpBodyAttribute")
                             operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                                parameterName, /* todo */ httpParamDocumentation,
+                                parameterName, httpParamDocumentation,
                                 httpParamContainerValueType, synthesizedAttributes);
 
                         if (paramHttpExtensionAttribute.GetType().Name == "HttpFormAttribute")
@@ -311,7 +312,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                                 httpParamContainerValueType.Name == "IFormFileCollection")
                             {
                                 operationParameter = await AddFileParameterAsync(context, parameterName,
-                                    httpParamDocumentation, /* todo */
+                                    httpParamDocumentation,
                                     httpParamContainerValueType.Name == "IFormFileCollection",
                                     synthesizedAttributes);
                             }
@@ -413,7 +414,6 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     IsRequired = required,
                     Description = description
                 };
-                // operation.Parameters.Add(operationParameter);
             }
             // TODO: need to check if this makes any sense. Need a test case.
             else if (parameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
@@ -433,7 +433,6 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     IsRequired = required,
                     Description = description
                 };
-                // operation.Parameters.Add(operationParameter);
             }
             else
             {
@@ -448,80 +447,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                         parameterType, attributes, isNullable,
                         schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
-                // operation.Parameters.Add(operationParameter);
             }
 
             return operationParameter;
         }
-
-        //private async Task<SwaggerParameter> AddSwaggerRequestBodyTypeParameterAsync(OperationProcessorContext context, 
-        //    SwaggerMethodAttributeParameter swaggerMethodAttributeParameter)
-        //{
-        //    SwaggerParameter operationParameter;
-
-        //    var typeDescription = _settings.ReflectionService.GetDescription(
-        //        swaggerMethodAttributeParameter.ExplicitType,
-        //        new Attribute[] { }, _settings);
-        //    var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
-
-        //    var operation = context.OperationDescription.Operation;
-        //    if (swaggerMethodAttributeParameter.ExplicitType.Name == "XmlDocument" || 
-        //        swaggerMethodAttributeParameter.ExplicitType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
-        //    {
-        //        operation.Consumes = new List<string> { "application/xml" };
-        //        operationParameter = new SwaggerParameter
-        //        {
-        //            Name = swaggerMethodAttributeParameter.Name ?? "Body",
-        //            Kind = SwaggerParameterKind.Body,
-        //            Schema = new JsonSchema4
-        //            {
-        //                Type = JsonObjectType.String,
-        //                IsNullableRaw = isNullable
-        //            },
-        //            IsNullableRaw = isNullable,
-        //            IsRequired = swaggerMethodAttributeParameter.Required,
-        //            Description = swaggerMethodAttributeParameter.Description
-        //        };
-        //        operation.Parameters.Add(operationParameter);
-        //    }
-        //    // TODO: need to check if this makes any sense. Need a test case.
-        //    else if (swaggerMethodAttributeParameter.ExplicitType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
-        //    {
-        //        operation.Consumes = new List<string> { "application/octet-stream" };
-        //        operationParameter = new SwaggerParameter
-        //        {
-        //            Name = swaggerMethodAttributeParameter.Name ?? "Body",
-        //            Kind = SwaggerParameterKind.Body,
-        //            Schema = new JsonSchema4
-        //            {
-        //                Type = JsonObjectType.String,
-        //                Format = JsonFormatStrings.Byte,
-        //                IsNullableRaw = isNullable
-        //            },
-        //            IsNullableRaw = isNullable,
-        //            IsRequired = swaggerMethodAttributeParameter.Required,
-        //            Description = swaggerMethodAttributeParameter.Description
-        //        };
-        //        operation.Parameters.Add(operationParameter);
-        //    }
-        //    else
-        //    {
-        //        operationParameter = new SwaggerParameter
-        //        {
-        //            Name = swaggerMethodAttributeParameter.Name ?? "Body",
-        //            Kind = SwaggerParameterKind.Body,
-        //            IsRequired = swaggerMethodAttributeParameter.Required,
-        //            IsNullableRaw = isNullable,
-        //            Description = swaggerMethodAttributeParameter.Description,
-        //            Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-        //                swaggerMethodAttributeParameter.ExplicitType, new Attribute[] { }, isNullable, 
-        //                schemaResolver: context.SchemaResolver).ConfigureAwait(false)
-        //        };
-        //        operation.Parameters.Add(operationParameter);
-        //    }
-
-        //    return operationParameter;
-        //}
 
         private async Task<SwaggerParameter> AddFileParameterAsync(
             OperationProcessorContext context, string name, string description, bool multiFile, IEnumerable<Attribute> attributes)
