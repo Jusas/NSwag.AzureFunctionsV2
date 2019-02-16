@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
+using NJsonSchema.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.ProcessorUtils
 {
@@ -38,5 +41,6 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.ProcessorUtils
 
             return collection;
         }
+
     }
 }

@@ -279,6 +279,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     else if(((ParameterInfo)parameterObj).ParameterType.Name == "HttpParam`1")
                     {
                         var httpParam = (ParameterInfo) parameterObj;
+                        //return XmlDocumentationExtensions.RemoveLineBreakWhiteSpaces((await parameter.GetXmlDocumentationWithoutLockAsync(await XmlDocumentationExtensions.GetXmlDocumentationPathAsync((object) parameter.Member.Module.Assembly).ConfigureAwait(false)).ConfigureAwait(false)).GetXmlDocumentationText());
+
                         var httpParamDocumentation = await httpParam.GetXmlDocumentationAsync();
                         var httpParamType = httpParam.ParameterType;
 

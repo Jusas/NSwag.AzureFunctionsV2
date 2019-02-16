@@ -51,9 +51,10 @@
       }
       window.onload = function() {
           // Begin Swagger UI call region
+          var rootUrl = window.location.protocol + "//" + window.location.host;
           const ui = SwaggerUIBundle({
-              url: "http://localhost:7071/api/swagger",
-              oauth2RedirectUrl: "http://localhost:7071/api/swaggerui/oauth2-redirect.html",
+              url: rootUrl + "/api/swagger",
+              oauth2RedirectUrl: rootUrl + "/api/swaggerui/oauth2-redirect.html",
               dom_id: '#swagger-ui',
               deepLinking: true,
               presets: [

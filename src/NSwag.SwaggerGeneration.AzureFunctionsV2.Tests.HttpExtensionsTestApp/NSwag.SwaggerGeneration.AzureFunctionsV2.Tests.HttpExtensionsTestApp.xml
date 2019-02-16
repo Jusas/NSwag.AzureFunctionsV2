@@ -4,18 +4,6 @@
         <name>NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp</name>
     </assembly>
     <members>
-        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.Function1.Basics(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.Function1.MyObject},AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
-            <summary>
-            This is a summary.
-            </summary>
-            <param name="req">The request</param>
-            <param name="simpleQueryParam">Simple query param</param>
-            <param name="secondQueryParam">Blah</param>
-            <param name="objectQueryParam">Object param</param>
-            <param name="header">A header</param>
-            <param name="log"></param>
-            <returns></returns>
-        </member>
         <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerAuthorizeAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Default SwaggerAuthorizeAttribute
@@ -109,7 +97,7 @@
             Query parameter of type string, name 'qp'
             </summary>
             <param name="req"></param>
-            <param name="queryParam"></param>
+            <param name="queryParam">A query parameter</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -118,7 +106,7 @@
             Query param of type List&lt;int&gt;, not required
             </summary>
             <param name="req"></param>
-            <param name="queryParam"></param>
+            <param name="queryParam">Yet another useless parameter</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -127,7 +115,7 @@
             Query param of type Dog
             </summary>
             <param name="req"></param>
-            <param name="queryParam"></param>
+            <param name="queryParam">Query parameter again</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -136,7 +124,7 @@
             Header of type string, x-header, not required
             </summary>
             <param name="req"></param>
-            <param name="header"></param>
+            <param name="header">A pointless header</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -145,7 +133,7 @@
             Header of type Dog, x-header, required
             </summary>
             <param name="req"></param>
-            <param name="header"></param>
+            <param name="header">Yet another test header</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -154,7 +142,7 @@
             Body of type Dog, not required
             </summary>
             <param name="req"></param>
-            <param name="body"></param>
+            <param name="body">A dog!</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -163,7 +151,7 @@
             Body of type string, required
             </summary>
             <param name="req"></param>
-            <param name="body"></param>
+            <param name="body">It's a string!</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -172,7 +160,7 @@
             Body of type Dog[], required
             </summary>
             <param name="req"></param>
-            <param name="body"></param>
+            <param name="body">An array of doges!</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -181,7 +169,7 @@
             Body of type XmlDocument
             </summary>
             <param name="req"></param>
-            <param name="body"></param>
+            <param name="body">An XML document</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -190,7 +178,7 @@
             FormData of type string, required
             </summary>
             <param name="req"></param>
-            <param name="formField"></param>
+            <param name="formField">A string form field</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -199,7 +187,7 @@
             FormData of type Dog, not required
             </summary>
             <param name="req"></param>
-            <param name="formField"></param>
+            <param name="formField">A Doge form field!</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -208,8 +196,8 @@
             FormData with IFormFile (required) and a string form field
             </summary>
             <param name="req"></param>
-            <param name="file"></param>
-            <param name="formField"></param>
+            <param name="file">A file form field</param>
+            <param name="formField">A string form field again</param>
             <param name="log"></param>
             <returns></returns>
         </member>
@@ -252,6 +240,23 @@
             HttpAuthorize attributed (ApiKey in query param) Function.
             </summary>
             <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.SwaggerEndpoints.Swagger(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Generates Swagger JSON.
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.SwaggerEndpoints.SwaggerUi(Microsoft.AspNetCore.Http.HttpRequest,System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Serves SwaggerUI files.
+            </summary>
+            <param name="req"></param>
+            <param name="staticfile"></param>
             <param name="log"></param>
             <returns></returns>
         </member>

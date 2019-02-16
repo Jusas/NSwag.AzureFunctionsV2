@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using NSwag.Annotations;
 using NSwag.Annotations.AzureFunctionsV2;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
@@ -27,6 +28,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerAuthorize]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerAuthorizeAttribute1")]
         public static async Task<IActionResult> SwaggerAuthorizeAttribute1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -42,6 +44,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerAuthorize(AuthScheme.HeaderApiKey)]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerAuthorizeAttribute2")]
         public static async Task<IActionResult> SwaggerAuthorizeAttribute2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -57,6 +60,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerAuthorize(AuthScheme.QueryApiKey)]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerAuthorizeAttribute3")]
         public static async Task<IActionResult> SwaggerAuthorizeAttribute3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -72,9 +76,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerFormData("formField1", true, typeof(string), "description")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerFormDataAttribute1")]
         public static async Task<IActionResult> SwaggerFormDataAttribute1(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             return new OkResult();
@@ -87,9 +92,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerFormDataFile(false, "file", "description")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerFormDataFileAttribute1")]
         public static async Task<IActionResult> SwaggerFormDataFileAttribute1(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             return new OkResult();
@@ -102,9 +108,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerFormDataFile(true, "files", "description")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerFormDataFileAttribute2")]
         public static async Task<IActionResult> SwaggerFormDataFileAttribute2(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             return new OkResult();
@@ -116,7 +123,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        [SwaggerQueryParameter("queryParam", false, typeof(string))]
+        [SwaggerQueryParameter("queryParam", false, typeof(string), "A query parameter")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerQueryParamAttribute1")]
         public static async Task<IActionResult> SwaggerQueryParamAttribute1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -131,7 +139,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        [SwaggerQueryParameter("queryParam", false, typeof(int), "description")]
+        [SwaggerQueryParameter("queryParam", false, typeof(int), "Yet another description")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerQueryParamAttribute2")]
         public static async Task<IActionResult> SwaggerQueryParamAttribute2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -147,6 +156,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerQueryParameter("queryParam", false, typeof(List<int>))]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerQueryParamAttribute3")]
         public static async Task<IActionResult> SwaggerQueryParamAttribute3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -162,6 +172,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerRequestBodyType(typeof(Person), Description = "description", Required = true, Name = "Body")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerRequestBodyTypeAttribute1")]
         public static async Task<IActionResult> SwaggerRequestBodyTypeAttribute1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
@@ -177,6 +188,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="log"></param>
         /// <returns></returns>
         [SwaggerRequestHeader("x-header", false, typeof(string), "description")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
         [FunctionName("SwaggerRequestHeaderAttribute1")]
         public static async Task<IActionResult> SwaggerRequestHeaderAttribute1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,

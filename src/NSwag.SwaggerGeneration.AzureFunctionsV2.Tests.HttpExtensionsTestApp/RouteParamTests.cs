@@ -14,7 +14,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
     {
         [FunctionName("RouteParamTest")]
         public static async Task<IActionResult> RouteParamTest(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/{num}/{str}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "api/{num}/{str}")] HttpRequest req,
             int num,
             string str,
             ILogger log)

@@ -28,7 +28,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
     {
         [FunctionName("DefaultNoParamsNoAnnotations")]
         public static async Task<IActionResult> DefaultNoParamsNoAnnotations([HttpTrigger(
-            AuthorizationLevel.Function, "GET", Route = null)] HttpRequest req,
+            AuthorizationLevel.Anonymous, "GET", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Triggered");
@@ -37,7 +37,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
 
         [FunctionName("PathParameters")]
         public static async Task<IActionResult> PathParameters([HttpTrigger(
-            AuthorizationLevel.Function, "GET", Route = "test/{stringparam}/{intparam}")] HttpRequest req,
+            AuthorizationLevel.Anonymous, "GET", Route = "test/{stringparam}/{intparam}")] HttpRequest req,
             string stringparam, int intparam,
             ILogger log)
         {
@@ -48,7 +48,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
         [SwaggerResponse(200, typeof(ResponseModelWithPrimitives), Description = "Description", IsNullable = false)]
         [FunctionName("ReturnValueAnnotation")]
         public static async Task<IActionResult> ReturnValueAnnotation([HttpTrigger(
-            AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Triggered");
@@ -58,7 +58,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
         [SwaggerRequestBodyType(typeof(string), true, "RequestPrimitive", "Description")]
         [FunctionName("PostPrimitiveTypeAnnotation")]
         public static async Task<IActionResult> PostPrimitiveTypeAnnotation([HttpTrigger(
-                AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+                AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Triggered");
@@ -69,7 +69,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
         [SwaggerRequestBodyType(typeof(RequestBodyModelWithPrimitives), true, "RequestModel", "Description")]
         [FunctionName("PostComplexTypeAnnotation")]
         public static async Task<IActionResult> PostComplexTypeAnnotation([HttpTrigger(
-                AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+                AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Triggered");
@@ -80,7 +80,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
         [SwaggerRequestBodyType(typeof(RequestBodyModelWithComplexType), true, "RequestModel", "Description")]
         [FunctionName("PostNestedComplexTypeAnnotation")]
         public static async Task<IActionResult> PostNestedComplexTypeAnnotation([HttpTrigger(
-                AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+                AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Triggered");
@@ -94,7 +94,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
         [Consumes("multipart/form-data")]
         [FunctionName("MultipartFormUploadAnnotation")]
         public static async Task<IActionResult> MultipartFormUploadAnnotation([HttpTrigger(
-            AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Triggered");
@@ -107,7 +107,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp
         [FunctionName("AuthorizeAnnotation")]
         [SwaggerAuthorize]
         public static async Task<IActionResult> AuthorizeAnnotation([HttpTrigger(
-            AuthorizationLevel.Function, "GET", Route = "test/authorizedonly")] HttpRequest req,
+            AuthorizationLevel.Anonymous, "GET", Route = "test/authorizedonly")] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Triggered");

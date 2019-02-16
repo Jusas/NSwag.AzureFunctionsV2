@@ -10,6 +10,60 @@
     <DocumentationFile>H:\dev\NSwag.AzureFunctions\src\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml" />
+    <None Remove="SwaggerUi\favicon-16x16.png" />
+    <None Remove="SwaggerUi\favicon-32x32.png" />
+    <None Remove="SwaggerUi\index.html" />
+    <None Remove="SwaggerUi\oauth2-redirect.html" />
+    <None Remove="SwaggerUi\swagger-ui-bundle.js" />
+    <None Remove="SwaggerUi\swagger-ui-bundle.js.map" />
+    <None Remove="SwaggerUi\swagger-ui-standalone-preset.js" />
+    <None Remove="SwaggerUi\swagger-ui-standalone-preset.js.map" />
+    <None Remove="SwaggerUi\swagger-ui.css" />
+    <None Remove="SwaggerUi\swagger-ui.css.map" />
+    <None Remove="SwaggerUi\swagger-ui.js" />
+    <None Remove="SwaggerUi\swagger-ui.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\favicon-16x16.png" />
+    <EmbeddedResource Include="SwaggerUi\favicon-32x32.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\index.html">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\oauth2-redirect.html">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui-bundle.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui-bundle.js.map">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui-standalone-preset.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui-standalone-preset.js.map">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui.css">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui.css.map">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwaggerUi\swagger-ui.js.map">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AzureFunctionsV2.HttpExtensions" Version="1.2.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
@@ -26,45 +80,6 @@
     <None Update="local.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </None>
-    <None Update="NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\favicon-16x16.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\favicon-32x32.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\oauth2-redirect.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui-bundle.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui-bundle.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui-standalone-preset.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui-standalone-preset.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SwaggerUi\swagger-ui.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

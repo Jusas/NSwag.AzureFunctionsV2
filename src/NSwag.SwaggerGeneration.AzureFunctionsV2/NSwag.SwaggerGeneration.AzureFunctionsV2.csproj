@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Jussi Saarivirta</Authors>
+    <Company>Jussi Saarivirta</Company>
+    <Description>NSwag SwaggerGenerator for generating Swagger JSON from HttpTriggered Azure Functions. Supports the AzureFunctionsV2.HttpExtensions function signature and authentication extensions as well.</Description>
+    <Copyright>(c) 2019 Jussi Saarivirta</Copyright>
+    <PackageLicenseUrl>https://aka.ms/deprecateLicenseUrl</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Jusas/NSwag.AzureFunctionsV2</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Jusas/NSwag.AzureFunctionsV2/master/assets/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Jusas/NSwag.AzureFunctionsV2</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>Azure Functions, Swagger, NSwag</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

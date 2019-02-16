@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using NSwag.Annotations;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
 {
@@ -39,9 +40,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Query parameter of type string, name 'qp'
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="queryParam"></param>
+        /// <param name="queryParam">A query parameter</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsQueryParams1")]
         public static async Task<IActionResult> HttpExtensionsQueryParams1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = null)] HttpRequest req,
@@ -55,9 +59,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Query param of type List&lt;int&gt;, not required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="queryParam"></param>
+        /// <param name="queryParam">Yet another useless parameter</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsQueryParams2")]
         public static async Task<IActionResult> HttpExtensionsQueryParams2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -71,9 +78,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Query param of type Dog
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="queryParam"></param>
+        /// <param name="queryParam">Query parameter again</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsQueryParams3")]
         public static async Task<IActionResult> HttpExtensionsQueryParams3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -87,9 +97,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Header of type string, x-header, not required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="header"></param>
+        /// <param name="header">A pointless header</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsHeaders1")]
         public static async Task<IActionResult> HttpExtensionsHeaders1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -103,9 +116,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Header of type Dog, x-header, required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="header"></param>
+        /// <param name="header">Yet another test header</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsHeaders2")]
         public static async Task<IActionResult> HttpExtensionsHeaders2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
@@ -119,9 +135,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Body of type Dog, not required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="body"></param>
+        /// <param name="body">A dog!</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsBody1")]
         public static async Task<IActionResult> HttpExtensionsBody1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
@@ -135,9 +154,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Body of type string, required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="body"></param>
+        /// <param name="body">It's a string!</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsBody2")]
         public static async Task<IActionResult> HttpExtensionsBody2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "patch", Route = null)] HttpRequest req,
@@ -151,9 +173,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Body of type Dog[], required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="body"></param>
+        /// <param name="body">An array of doges!</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsBody3")]
         public static async Task<IActionResult> HttpExtensionsBody3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = null)] HttpRequest req,
@@ -167,9 +192,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// Body of type XmlDocument
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="body"></param>
+        /// <param name="body">An XML document</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsBody4")]
         public static async Task<IActionResult> HttpExtensionsBody4(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
@@ -183,9 +211,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// FormData of type string, required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="formField"></param>
+        /// <param name="formField">A string form field</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsForm1")]
         public static async Task<IActionResult> HttpExtensionsForm1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
@@ -199,9 +230,12 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// FormData of type Dog, not required
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="formField"></param>
+        /// <param name="formField">A Doge form field!</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsForm2")]
         public static async Task<IActionResult> HttpExtensionsForm2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
@@ -215,10 +249,13 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// FormData with IFormFile (required) and a string form field
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="file"></param>
-        /// <param name="formField"></param>
+        /// <param name="file">A file form field</param>
+        /// <param name="formField">A string form field again</param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [FunctionName("HttpExtensionsForm3")]
         public static async Task<IActionResult> HttpExtensionsForm3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
@@ -236,6 +273,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="user"></param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.Jwt)]
         [FunctionName("HttpExtensionsJwtAuth1")]
         public static async Task<IActionResult> HttpExtensionsJwtAuth1(
@@ -253,6 +293,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="user"></param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [MyAuthorize(Role = "admin")]
         [FunctionName("HttpExtensionsJwtAuth2")]
         public static async Task<IActionResult> HttpExtensionsJwtAuth2(
@@ -269,6 +312,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.Basic)]
         [FunctionName("HttpExtensionsBasicAuth1")]
         public static async Task<IActionResult> HttpExtensionsBasicAuth1(
@@ -284,6 +330,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.HeaderApiKey)]
         [FunctionName("HttpExtensionsApiKeyAuth1")]
         public static async Task<IActionResult> HttpExtensionsApiKeyAuth1(
@@ -299,6 +348,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK response")]
+        [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.QueryApiKey)]
         [FunctionName("HttpExtensionsApiKeyAuth2")]
         public static async Task<IActionResult> HttpExtensionsApiKeyAuth2(

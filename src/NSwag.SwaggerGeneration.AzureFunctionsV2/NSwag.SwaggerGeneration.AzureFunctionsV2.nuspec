@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>NSwag.SwaggerGeneration.AzureFunctionsV2</id>
+    <version>1.0.0-beta</version>
+    <authors>Jussi Saarivirta</authors>
+    <owners>Jussi Saarivirta</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <!-- <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl> -->
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/Jusas/NSwag.AzureFunctionsV2</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Jusas/NSwag.AzureFunctionsV2/master/assets/logo.png</iconUrl>
+    <description>NSwag SwaggerGenerator for generating Swagger JSON from HttpTriggered Azure Functions. Supports the AzureFunctionsV2.HttpExtensions function signature and authentication extensions as well.</description>
+    <copyright>(c) 2019 Jussi Saarivirta</copyright>
+    <tags>Azure Functions, Swagger, NSwag</tags>
+    <repository type="Git" url="https://github.com/Jusas/NSwag.AzureFunctionsV2" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <!-- <dependency id="NSwag.Annotations.AzureFunctionsV2" version="1.0.0" exclude="Build,Analyzers" /> -->
+        <dependency id="NSwag.Annotations" version="12.0.13" exclude="Build,Analyzers" />
+        <dependency id="NSwag.SwaggerGeneration" version="12.0.13" exclude="Build,Analyzers" />
+        <dependency id="System.ComponentModel.Annotations" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

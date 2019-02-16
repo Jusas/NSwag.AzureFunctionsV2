@@ -151,7 +151,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             // Assert
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
-            operation.ActualParameters[0].Description.Should().Be(null);
+            operation.ActualParameters[0].Description.Should().Be("A query parameter");
             operation.ActualParameters[0].Name.Should().Be("queryParam");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
             operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
@@ -173,7 +173,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             // Assert
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
-            operation.ActualParameters[0].Description.Should().Be("description");
+            operation.ActualParameters[0].Description.Should().Be("Yet another description");
             operation.ActualParameters[0].Name.Should().Be("queryParam");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
             operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);

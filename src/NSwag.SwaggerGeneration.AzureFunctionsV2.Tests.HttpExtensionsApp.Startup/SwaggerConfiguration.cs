@@ -17,6 +17,14 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Start
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
             SwaggerGeneratorSettings = settings;
 
+            settings.Title = "Azure Functions Swagger example";
+            settings.Description =
+                "This is an example generated Swagger JSON using NSwag.SwaggerGeneration.AzureFunctionsV2 and AzureFunctionsV2.HttpExtensions to " +
+                "generate Swagger output directly from the assembly. <br/><br/>Credentials for testing:<br/><br/><b>OAuth2:</b> " +
+                "\"testuser@testcorp.eu\" : \"foobar123---\", use client_id: \"XLjNBiBCx3_CZUAK3gagLSC_PPQjBDzB\"" +
+                "<br/><b>Basic auth:</b> \"user\" : \"pass\" <br/> " +
+                "<b>ApiKey:</b> \"key\".";
+
             settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer",
                 SwaggerSecuritySchemeType.OpenIdConnect));
             settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme()
