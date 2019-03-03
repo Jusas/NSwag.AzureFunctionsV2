@@ -340,3 +340,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database 
 healthchecksdb
 assets/logo.psd
+src/NSwag.SwaggerGeneration.AzureFunctionsV2/NSwag.SwaggerGeneration.AzureFunctionsV2.xml
+src/NSwag.Annotations.AzureFunctionsV2/NSwag.Annotations.AzureFunctionsV2.xml

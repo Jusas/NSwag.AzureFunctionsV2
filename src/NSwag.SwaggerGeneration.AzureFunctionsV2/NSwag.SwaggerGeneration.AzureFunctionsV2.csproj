@@ -16,6 +16,10 @@
     <PackageTags>Azure Functions, Swagger, NSwag</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>H:\dev\NSwag.AzureFunctions\src\NSwag.SwaggerGeneration.AzureFunctionsV2\NSwag.SwaggerGeneration.AzureFunctionsV2.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="NSwag.Annotations" Version="12.0.14" />
     <PackageReference Include="NSwag.SwaggerGeneration" Version="12.0.14" />

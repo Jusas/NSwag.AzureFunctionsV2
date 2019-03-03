@@ -15,4 +15,8 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>H:\dev\NSwag.AzureFunctions\src\NSwag.Annotations.AzureFunctionsV2\NSwag.Annotations.AzureFunctionsV2.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>
