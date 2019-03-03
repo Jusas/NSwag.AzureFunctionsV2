@@ -37,7 +37,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Start
                         ValidateIssuerSigningKey = true,
                         NameClaimType = ClaimTypes.NameIdentifier
                     },
-                    AuthorizationFilter = async (principal, token, attributes) => { }
+                    CustomAuthorizationFilter = async (principal, token, attributes) => { }
                 };
             });
             

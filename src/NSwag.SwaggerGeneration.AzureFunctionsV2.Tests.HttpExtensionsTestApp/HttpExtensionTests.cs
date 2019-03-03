@@ -275,6 +275,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <returns></returns>
         [SwaggerResponse(200, typeof(string), Description = "OK response")]
         [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(401, typeof(object), Description = "Unauthorized")]
         [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.Jwt)]
         [FunctionName("HttpExtensionsJwtAuth1")]
@@ -295,6 +296,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <returns></returns>
         [SwaggerResponse(200, typeof(string), Description = "OK response")]
         [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(401, typeof(object), Description = "Unauthorized")]
         [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [MyAuthorize(Role = "admin")]
         [FunctionName("HttpExtensionsJwtAuth2")]
@@ -314,6 +316,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <returns></returns>
         [SwaggerResponse(200, typeof(string), Description = "OK response")]
         [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(401, typeof(object), Description = "Unauthorized")]
         [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.Basic)]
         [FunctionName("HttpExtensionsBasicAuth1")]
@@ -332,6 +335,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <returns></returns>
         [SwaggerResponse(200, typeof(string), Description = "OK response")]
         [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(401, typeof(object), Description = "Unauthorized")]
         [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.HeaderApiKey)]
         [FunctionName("HttpExtensionsApiKeyAuth1")]
@@ -350,6 +354,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <returns></returns>
         [SwaggerResponse(200, typeof(string), Description = "OK response")]
         [SwaggerResponse(400, typeof(object), Description = "Bad request, check your input")]
+        [SwaggerResponse(401, typeof(object), Description = "Unauthorized")]
         [SwaggerResponse(500, typeof(object), Description = "Server went bonkers")]
         [HttpAuthorize(Scheme.QueryApiKey)]
         [FunctionName("HttpExtensionsApiKeyAuth2")]
