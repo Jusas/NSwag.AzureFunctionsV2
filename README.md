@@ -5,7 +5,8 @@
 
 ![Logo](assets/logo.png)
 
-See the demo: https://functionsswagger.azurewebsites.net/api/swaggerui/index.html (an Azure Function App serving a Swagger UI and the Swagger JSON that is generated on the fly from the Function App assembly).
+See the demo: https://functionsswagger.azurewebsites.net/api/swaggerui/index.html (an Azure Function App serving a Swagger UI and the Swagger JSON that is generated on the fly from the Function App assembly).    
+The demo source is in two projects: [HttpExtensionsTestApp](src/NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp) and [HttpExtensionsTestApp.Startup](src/NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup).
 
 This is an extension to NSwag, specifically a SwaggerGenerator implementation designed
 for Azure Functions. This implementation has the necessary discovery methods to scan
