@@ -2,6 +2,7 @@
 
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-green.svg?style=flat)](https://github.com/Jusas/NSwag.AzureFunctionsV2/wiki) 
 [![Nuget](https://img.shields.io/nuget/v/NSwag.SwaggerGeneration.AzureFunctionsV2.svg)](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AzureFunctionsV2/) 
+[![Tested version](https://img.shields.io/badge/NSwag%20version%20tested-12.0.14-blue.svg)](https://github.com/RicoSuter/NSwag)
 
 ![Logo](assets/logo.png)
 
@@ -34,6 +35,11 @@ It's worth noting that since Functions do not really behave like ASP.NET Core de
 having some similarities, which forces us to do our customized method discovery and fill
 some gaps with additional annotations.
 
+## NSwag Core version compatibility
+
+NSwag.AzureFunctionsV2 is built as a Swagger Generator implementation on top of NSwag.Core and NSwag.SwaggerGeneration packages and it's important to note that these projects aren't necessarily updated in sync.
+
+The shield on top (![Shield](https://img.shields.io/badge/NSwag%20version%20tested-grey.svg)) tells you the version of NSwag that the current version of NSwag.AzureFunctionsV2 has been developed and tested with. Most of the time however the latest 12.0.xx patch versions should be compatible though, but it is possible that a public API change in the NSwag projects slips in to a patch version and breaks something.
 
 ## Examples
 
