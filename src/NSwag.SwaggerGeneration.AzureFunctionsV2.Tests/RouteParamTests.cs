@@ -27,8 +27,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             // Assert
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(2);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Path);
-            operation.ActualParameters[1].Kind.Should().Be(SwaggerParameterKind.Path);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Path);
+            operation.ActualParameters[1].Kind.Should().Be(OpenApiParameterKind.Path);
             operation.ActualParameters[0].IsRequired.Should().Be(true);
             operation.ActualParameters[1].IsRequired.Should().Be(true);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.Integer);

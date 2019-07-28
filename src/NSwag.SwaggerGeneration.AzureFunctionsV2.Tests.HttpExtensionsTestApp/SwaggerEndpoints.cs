@@ -19,7 +19,6 @@ using NSwag.Annotations;
 using NSwag.Annotations.AzureFunctionsV2;
 using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
 using NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup;
-using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
 {
@@ -31,7 +30,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        [SwaggerIgnore]
+        [OpenApiIgnore]
         [FunctionName("swagger")]
         public static async Task<IActionResult> Swagger(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
@@ -46,7 +45,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
                 typeof(HttpExtensionTests),
                 typeof(RouteParamTests)
             };
-            var document = await generator.GenerateForAzureFunctionClassesAsync(funcClasses, null);            
+            var document = await generator.GenerateForAzureFunctionClassesAsync(funcClasses, null);
+            
+            // Workaround for NSwag global security bug, see https://github.com/RicoSuter/NSwag/pull/2305
+            document.Security.Clear();
 
             var json = document.ToJson();
             return new OkObjectResult(json);
@@ -59,7 +61,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         /// <param name="staticfile"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        [SwaggerIgnore]
+        [OpenApiIgnore]
         [FunctionName("swaggerui")]
         public static async Task<IActionResult> SwaggerUi(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "swaggerui/{staticfile}")] HttpRequest req,

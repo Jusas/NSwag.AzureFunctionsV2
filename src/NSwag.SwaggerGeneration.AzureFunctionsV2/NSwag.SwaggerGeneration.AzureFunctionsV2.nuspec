@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>NSwag.SwaggerGeneration.AzureFunctionsV2</id>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <authors>Jussi Saarivirta</authors>
     <owners>Jussi Saarivirta</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
@@ -17,8 +17,8 @@
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <!-- <dependency id="NSwag.Annotations.AzureFunctionsV2" version="1.0.0" exclude="Build,Analyzers" /> -->
-        <dependency id="NSwag.Annotations" version="12.0.14" exclude="Build,Analyzers" />
-        <dependency id="NSwag.SwaggerGeneration" version="12.0.14" exclude="Build,Analyzers" />
+        <dependency id="NSwag.Annotations" version="13.0.4" exclude="Build,Analyzers" />
+        <dependency id="NSwag.Generation" version="13.0.4" exclude="Build,Analyzers" />
         <dependency id="System.ComponentModel.Annotations" version="4.5.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>

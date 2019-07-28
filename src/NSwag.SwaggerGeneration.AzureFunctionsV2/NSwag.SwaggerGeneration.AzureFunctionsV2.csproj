@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -14,15 +14,16 @@
     <RepositoryUrl>https://github.com/Jusas/NSwag.AzureFunctionsV2</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Azure Functions, Swagger, NSwag</PackageTags>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>H:\dev\NSwag.AzureFunctions\src\NSwag.SwaggerGeneration.AzureFunctionsV2\NSwag.SwaggerGeneration.AzureFunctionsV2.xml</DocumentationFile>
+    <DocumentationFile>F:\dev\NSwag.AzureFunctionsV2\src\NSwag.SwaggerGeneration.AzureFunctionsV2\NSwag.SwaggerGeneration.AzureFunctionsV2.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSwag.Annotations" Version="12.0.14" />
-    <PackageReference Include="NSwag.SwaggerGeneration" Version="12.0.14" />
+    <PackageReference Include="NSwag.Annotations" Version="13.0.4" />
+    <PackageReference Include="NSwag.Generation" Version="13.0.4" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 

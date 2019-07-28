@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.Processors.Security;
+using NSwag.Generation.Processors;
+using NSwag.Generation.Processors.Contexts;
+using NSwag.Generation.Processors.Security;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
 {
@@ -21,18 +23,18 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
     {
 
         private readonly string _name;
-        private SwaggerSecuritySchemeType _securitySchemeType;
-        private SwaggerSecurityApiKeyLocation? _location;
+        private OpenApiSecuritySchemeType _securitySchemeType;
+        private OpenApiSecurityApiKeyLocation? _location;
 
         /// <summary>
         /// Initializes the <see cref="OperationSecurityProcessor"/> with the given name (which should match the name of
-        /// your <see cref="SecurityDefinitionAppender"/>) and <see cref="SwaggerSecuritySchemeType"/>.
+        /// your <see cref="SecurityDefinitionAppender"/>) and <see cref="OpenApiSecuritySchemeType"/>.
         /// </summary>
         /// <param name="name">The name of your Swagger security definition (which should match the name you gave to
         /// your <see cref="SecurityDefinitionAppender"/>).</param>
         /// <param name="type">The type of the scheme.</param>
-        /// <param name="location">If the type was <see cref="SwaggerSecuritySchemeType.ApiKey"/>, the expected location of the key, otherwise null.</param>
-        public OperationSecurityProcessor(string name, SwaggerSecuritySchemeType type, SwaggerSecurityApiKeyLocation? location = null)
+        /// <param name="location">If the type was <see cref="OpenApiSecuritySchemeType.ApiKey"/>, the expected location of the key, otherwise null.</param>
+        public OperationSecurityProcessor(string name, OpenApiSecuritySchemeType type, OpenApiSecurityApiKeyLocation? location = null)
         {
             _name = name;
             _securitySchemeType = type;
@@ -42,19 +44,22 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             var securityRequirement = GetSecurityRequirement(context.MethodInfo);
 
             if (securityRequirement)
             {
-                context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement()
+                if(context.OperationDescription.Operation.Security == null)
+                    context.OperationDescription.Operation.Security = new Collection<OpenApiSecurityRequirement>();
+
+                context.OperationDescription.Operation.Security.Add(new OpenApiSecurityRequirement()
                 {
                     {_name, new string[] { }}
                 });
             }
 
-            return Task.FromResult(true);
+            return true;
         }
 
         private bool GetSecurityRequirement(MethodInfo methodInfo)
@@ -67,31 +72,31 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
             // HttpExtensions support.
             var httpExtensionsAuthAttributes = allAttributes.Where(
                 a => a.GetType().Name == "HttpAuthorizeAttribute" ||
-                     a.GetType().InheritsFrom("HttpAuthorizeAttribute", TypeNameStyle.Name)).ToList();
+                     a.GetType().InheritsFromTypeName("HttpAuthorizeAttribute", TypeNameStyle.Name)).ToList();
 
-            if (_securitySchemeType == SwaggerSecuritySchemeType.Basic)
+            if (_securitySchemeType == OpenApiSecuritySchemeType.Basic)
             {
                 var basicAuthRequirement = httpExtensionsAuthAttributes.Any(x =>
                     x.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "Basic") ||
                     authorizeAttributes.Any(a => a.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "Basic");
                 return basicAuthRequirement;
             }
-            if (_securitySchemeType == SwaggerSecuritySchemeType.ApiKey && (_location == SwaggerSecurityApiKeyLocation.Header || _location == null))
+            if (_securitySchemeType == OpenApiSecuritySchemeType.ApiKey && (_location == OpenApiSecurityApiKeyLocation.Header || _location == null))
             {
                 var apiKeyAuthRequirement = httpExtensionsAuthAttributes.Any(x =>
                     x.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "HeaderApiKey") ||
                     authorizeAttributes.Any(a => a.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "HeaderApiKey");
                 return apiKeyAuthRequirement;
             }
-            if (_securitySchemeType == SwaggerSecuritySchemeType.ApiKey && _location == SwaggerSecurityApiKeyLocation.Query)
+            if (_securitySchemeType == OpenApiSecuritySchemeType.ApiKey && _location == OpenApiSecurityApiKeyLocation.Query)
             {
                 var apiKeyAuthRequirement = httpExtensionsAuthAttributes.Any(x =>
                     x.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "QueryApiKey") ||
                     authorizeAttributes.Any(a => a.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString() == "QueryApiKey");
                 return apiKeyAuthRequirement;
             }
-            if (_securitySchemeType == SwaggerSecuritySchemeType.OAuth2 ||
-                     _securitySchemeType == SwaggerSecuritySchemeType.OpenIdConnect)
+            if (_securitySchemeType == OpenApiSecuritySchemeType.OAuth2 ||
+                     _securitySchemeType == OpenApiSecuritySchemeType.OpenIdConnect)
             {
                 var bearerRequirement = httpExtensionsAuthAttributes.Any(x =>
                     new[] { "OAuth2", "Jwt" }.Contains(x.TryGetPropertyValue<Enum>("Scheme", default(Enum)).ToString())) ||

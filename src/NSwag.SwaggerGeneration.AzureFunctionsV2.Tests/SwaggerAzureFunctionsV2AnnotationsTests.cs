@@ -20,7 +20,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("Basic", SwaggerSecuritySchemeType.Basic));
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Basic", OpenApiSecuritySchemeType.Basic));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(GenerationAnnotationTests.SwaggerAuthorizeAttribute1);
 
@@ -37,7 +37,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("HdrApiKey", SwaggerSecuritySchemeType.ApiKey));
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("HdrApiKey", OpenApiSecuritySchemeType.ApiKey));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(GenerationAnnotationTests.SwaggerAuthorizeAttribute2);
 
@@ -56,7 +56,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("QApiKey", SwaggerSecuritySchemeType.ApiKey, SwaggerSecurityApiKeyLocation.Query));
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("QApiKey", OpenApiSecuritySchemeType.ApiKey, OpenApiSecurityApiKeyLocation.Query));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(GenerationAnnotationTests.SwaggerAuthorizeAttribute3);
 
@@ -109,7 +109,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Description.Should().Be("description");
             operation.ActualParameters[0].Name.Should().Be("file");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.FormData);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.FormData);
             operation.ActualParameters[0].Type.Should().Be(NJsonSchema.JsonObjectType.File);
         }
 
@@ -131,9 +131,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Description.Should().Be("description");
             operation.ActualParameters[0].Name.Should().Be("files");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.FormData);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.FormData);
             operation.ActualParameters[0].Type.Should().Be(NJsonSchema.JsonObjectType.File);
-            operation.ActualParameters[0].CollectionFormat.Should().Be(SwaggerParameterCollectionFormat.Multi);
+            operation.ActualParameters[0].CollectionFormat.Should().Be(OpenApiParameterCollectionFormat.Multi);
         }
 
         [Fact]
@@ -154,7 +154,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Description.Should().Be("A query parameter");
             operation.ActualParameters[0].Name.Should().Be("queryParam");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Query);
             operation.ActualParameters[0].Type.Should().Be(NJsonSchema.JsonObjectType.String);
         }
 
@@ -176,7 +176,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Description.Should().Be("Yet another description");
             operation.ActualParameters[0].Name.Should().Be("queryParam");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Query);
             operation.ActualParameters[0].Type.Should().Be(NJsonSchema.JsonObjectType.Integer);
         }
 
@@ -198,7 +198,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Description.Should().Be(null);
             operation.ActualParameters[0].Name.Should().Be("queryParam");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Query);
             operation.ActualParameters[0].Type.Should().Be(NJsonSchema.JsonObjectType.Array);
             operation.ActualParameters[0].Item.Type.Should().Be(NJsonSchema.JsonObjectType.Integer);
         }
@@ -221,7 +221,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Description.Should().Be("description");
             operation.ActualParameters[0].Name.Should().Be("Body");
             operation.ActualParameters[0].IsRequired.Should().Be(true);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Body);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Body);
             operation.ActualParameters[0].ActualSchema.Type.Should().Be(JsonObjectType.Object);
             operation.ActualParameters[0].ActualSchema.Should().Be(swaggerDoc.Definitions["Person"]);
         }
@@ -244,8 +244,40 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters[0].Description.Should().Be("description");
             operation.ActualParameters[0].Name.Should().Be("x-header");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Header);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Header);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.String);
+        }
+
+        [Fact]
+        public async Task Should_ignore_SwaggerIgnore_attributed_function()
+        {
+            // Arrange
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var functionName = nameof(GenerationAnnotationTests.SwaggerIgnoredFunction1);
+
+            // Act
+            var swaggerDoc = await generator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(
+                typeof(GenerationAnnotationTests), new List<string>() { functionName });
+
+            // Assert
+            swaggerDoc.Operations.Count().Should().Be(0);
+        }
+
+        [Fact]
+        public async Task Should_ignore_OpenApiIgnore_attributed_function()
+        {
+            // Arrange
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var functionName = nameof(GenerationAnnotationTests.SwaggerIgnoredFunction2);
+
+            // Act
+            var swaggerDoc = await generator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(
+                typeof(GenerationAnnotationTests), new List<string>() { functionName });
+
+            // Assert
+            swaggerDoc.Operations.Count().Should().Be(0);
         }
     }
 }

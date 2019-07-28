@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.Generation.Processors;
+using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
 {
@@ -17,7 +17,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
         {
         }
 
-        public async Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
@@ -29,10 +29,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                             a.GetType().Name == "ProducesAttribute")
                 .ToList();
 
-            var parameter = context.MethodInfo.ReturnParameter;
             var attributes = responseTypeAttributes.Concat(producesResponseTypeAttributes);
 
-            await ProcessResponseTypeAttributes(context, parameter, attributes);
+            ProcessResponseTypeAttributes(context, attributes);
 
             return true;
         }

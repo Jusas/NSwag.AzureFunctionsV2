@@ -196,5 +196,35 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         {
             return new OkResult();
         }
+
+        /// <summary>
+        /// Function annotated with SwaggerIgnore.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [SwaggerIgnore]
+        [FunctionName("SwaggerIgnoredFunction1")]
+        public static async Task<IActionResult> SwaggerIgnoredFunction1(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// Function annotated with OpenApiIgnore.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [OpenApiIgnore]
+        [FunctionName("SwaggerIgnoredFunction2")]
+        public static async Task<IActionResult> SwaggerIgnoredFunction2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
     }
 }

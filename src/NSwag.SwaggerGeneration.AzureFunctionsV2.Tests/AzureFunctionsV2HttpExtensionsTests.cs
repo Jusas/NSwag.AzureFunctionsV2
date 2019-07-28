@@ -31,7 +31,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].Name.Should().Be("qp");
             operation.ActualParameters[0].IsRequired.Should().Be(true);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Query);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.String);
         }
 
@@ -52,7 +52,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].Name.Should().Be("queryParam");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Query);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.Array);
             operation.ActualParameters[0].Item.Type.Should().Be(JsonObjectType.Integer);
         }
@@ -74,7 +74,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].Name.Should().Be("queryParam");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Query);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Query);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.Object);
             operation.ActualParameters[0].ActualSchema.Should().Be(swaggerDoc.Definitions["Dog"]);
         }
@@ -97,7 +97,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].Name.Should().Be("x-header");
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Header);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Header);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.String);
         }
 
@@ -118,7 +118,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].Name.Should().Be("x-header");
             operation.ActualParameters[0].IsRequired.Should().Be(true);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Header);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Header);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.Object);
             operation.ActualParameters[0].ActualSchema.Should().Be(swaggerDoc.Definitions["Dog"]);
         }
@@ -139,7 +139,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].IsRequired.Should().Be(false);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Body);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Body);
             operation.ActualParameters[0].ActualSchema.Should().Be(swaggerDoc.Definitions["Dog"]);
         }
 
@@ -159,7 +159,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].IsRequired.Should().Be(true);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Body);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Body);
             operation.ActualParameters[0].Schema.Type.Should().Be(JsonObjectType.String);
         }
 
@@ -178,7 +178,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             // Assert
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Body);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Body);
             operation.ActualParameters[0].Schema.Type.Should().Be(JsonObjectType.String);
             operation.ActualConsumes.Should().Contain("application/xml");
         }
@@ -199,7 +199,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].IsRequired.Should().Be(true);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.Body);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.Body);
             operation.ActualParameters[0].Schema.Type.Should().Be(JsonObjectType.Array);
             operation.ActualParameters[0].Schema.Item.ActualSchema.Should().Be(swaggerDoc.Definitions["Dog"]);
         }
@@ -220,7 +220,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].IsRequired.Should().Be(true);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.FormData);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.FormData);
             operation.ActualParameters[0].Type.Should().Be(JsonObjectType.String);
         }
 
@@ -240,7 +240,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             var operation = swaggerDoc.Operations.First().Operation;
             operation.ActualParameters.Count.Should().Be(1);
             operation.ActualParameters[0].IsRequired.Should().Be(true);
-            operation.ActualParameters[0].Kind.Should().Be(SwaggerParameterKind.FormData);
+            operation.ActualParameters[0].Kind.Should().Be(OpenApiParameterKind.FormData);
             operation.ActualParameters[0].ActualSchema.Should().Be(swaggerDoc.Definitions["Dog"]);
         }
 
@@ -249,7 +249,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", SwaggerSecuritySchemeType.OAuth2));
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", OpenApiSecuritySchemeType.OAuth2));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(HttpExtensionTests.HttpExtensionsJwtAuth1);
 
@@ -269,7 +269,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
         {
             // Arrange
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
-            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", SwaggerSecuritySchemeType.OAuth2));
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer", OpenApiSecuritySchemeType.OAuth2));
             var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
             var functionName = nameof(HttpExtensionTests.HttpExtensionsJwtAuth2);
 

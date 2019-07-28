@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.Generation;
+using NSwag.Generation.Processors;
+using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2
 {
@@ -15,7 +17,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
     /// </summary>
     public class AzureFunctionsV2ToSwaggerGenerator
     {
-        private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
+        // private readonly OpenApiSchemaGenerator _schemaGenerator;
 
         /// <summary>
         /// Swagger generator settings.
@@ -25,17 +27,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// <summary>Initializes a new instance of the <see cref="AzureFunctionsV2ToSwaggerGenerator" /> class.</summary>
         /// <param name="settings">The settings</param>
         public AzureFunctionsV2ToSwaggerGenerator(AzureFunctionsV2ToSwaggerGeneratorSettings settings)
-            : this(settings, new SwaggerJsonSchemaGenerator(settings))
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="AzureFunctionsV2ToSwaggerGenerator" /> class.</summary>
-        /// <param name="settings">The settings</param>
-        /// <param name="schemaGenerator">The schema generator</param>
-        public AzureFunctionsV2ToSwaggerGenerator(AzureFunctionsV2ToSwaggerGeneratorSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             Settings = settings;
-            _schemaGenerator = schemaGenerator;
+            // _schemaGenerator = settings.SchemaGenerator;
         }
 
         /// <summary>
@@ -49,7 +43,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             
             var staticAzureFunctionClasses = assembly.ExportedTypes
                 .Where(x => x.IsAbstract && x.IsSealed && x.IsClass)
-                .Where(x => x.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute"))
+                .Where(x => x.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "OpenApiIgnoreAttribute"))
                 .Where(x => x.GetMethods(BindingFlags.Static).Any(m => m.GetCustomAttributes().SingleOrDefault(a => a.GetType().Name == "FunctionNameAttribute") != null));
 
             return staticAzureFunctionClasses;
@@ -61,16 +55,16 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// <param name="azureFunctionClassTypes">The Azure Function classes (static classes)</param>
         /// <param name="functionNames">The function names (defined by FunctionNameAttribute)</param>
         /// <returns>The generated Swagger document</returns>
-        public async Task<SwaggerDocument> GenerateForAzureFunctionClassesAsync(IEnumerable<Type> azureFunctionClassTypes, 
+        public async Task<OpenApiDocument> GenerateForAzureFunctionClassesAsync(IEnumerable<Type> azureFunctionClassTypes, 
             IList<string> functionNames)
         {
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new SwaggerSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
             var usedAzureFunctionClassTypes = new List<Type>();
 
             foreach (var azureFunctionClassType in azureFunctionClassTypes)
             {
-                var generator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
+                var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
                 var isIncluded = await GenerateForAzureFunctionClassAsync(document, azureFunctionClassType, 
                     generator, schemaResolver, functionNames);
                 if(isIncluded)
@@ -81,8 +75,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
 
             foreach (var processor in Settings.DocumentProcessors)
             {
-                await processor.ProcessAsync(new DocumentProcessorContext(document, azureFunctionClassTypes,
-                    usedAzureFunctionClassTypes, schemaResolver, _schemaGenerator, Settings));
+                processor.Process(new DocumentProcessorContext(document, azureFunctionClassTypes,
+                    usedAzureFunctionClassTypes, schemaResolver, Settings.SchemaGenerator, Settings));
             }
 
             return document;
@@ -93,7 +87,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// </summary>
         /// <typeparam name="TAzureFunctionClass">The <see cref="Type"/> of the class</typeparam>
         /// <returns>The generated Swagger document</returns>
-        public Task<SwaggerDocument> GenerateForAzureFunctionClassAsync<TAzureFunctionClass>()
+        public Task<OpenApiDocument> GenerateForAzureFunctionClassAsync<TAzureFunctionClass>()
         {
             return GenerateForAzureFunctionClassesAsync(new[] { typeof(TAzureFunctionClass) }, null);
         }
@@ -103,7 +97,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// </summary>
         /// <param name="azureFunctionClassType">The <see cref="Type"/> of the class</param>
         /// <returns>The generated Swagger document</returns>
-        public Task<SwaggerDocument> GenerateForAzureFunctionClassAsync(Type azureFunctionClassType)
+        public Task<OpenApiDocument> GenerateForAzureFunctionClassAsync(Type azureFunctionClassType)
         {
             return GenerateForAzureFunctionClassesAsync(new[] { azureFunctionClassType }, null);
         }
@@ -114,17 +108,17 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// <param name="azureFunctionClassType">The <see cref="Type"/> of the class</param>
         /// <param name="functionNames">The function names (defined by FunctionNameAttribute)</param>
         /// <returns>The generated Swagger document</returns>
-        public Task<SwaggerDocument> GenerateForAzureFunctionClassAndSpecificMethodsAsync(Type azureFunctionClassType,
+        public Task<OpenApiDocument> GenerateForAzureFunctionClassAndSpecificMethodsAsync(Type azureFunctionClassType,
             IList<string> functionNames)
         {
             return GenerateForAzureFunctionClassesAsync(new[] { azureFunctionClassType }, functionNames);
         }
 
 
-        private async Task<bool> GenerateForAzureFunctionClassAsync(SwaggerDocument document, Type staticAzureFunctionClassType,
-            SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver, IList<string> functionNames)
+        private async Task<bool> GenerateForAzureFunctionClassAsync(OpenApiDocument document, Type staticAzureFunctionClassType,
+            OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver, IList<string> functionNames)
         {
-            var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
+            var operations = new List<Tuple<OpenApiOperationDescription, MethodInfo>>();
 
             foreach (var method in GetActionMethods(staticAzureFunctionClassType, functionNames))
             {
@@ -135,18 +129,18 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                 {
                     foreach (var httpMethod in httpMethods)
                     {
-                        var operationDescription = new SwaggerOperationDescription
+                        var operationDescription = new OpenApiOperationDescription
                         {
                             Path = httpPath,
                             Method = httpMethod,
-                            Operation = new SwaggerOperation
+                            Operation = new OpenApiOperation
                             {
                                 IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
                                 OperationId = GetOperationId(document, staticAzureFunctionClassType.Name, method)
                             }
                         };
 
-                        operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
+                        operations.Add(new Tuple<OpenApiOperationDescription, MethodInfo>(operationDescription, method));
                     }
                 }
             }
@@ -155,9 +149,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                 swaggerGenerator, schemaResolver);
         }
 
-        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type staticAzureFunctionClassType,
-            List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator,
-            SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> AddOperationDescriptionsToDocumentAsync(OpenApiDocument document, Type staticAzureFunctionClassType,
+            List<Tuple<OpenApiOperationDescription, MethodInfo>> operations, OpenApiDocumentGenerator swaggerGenerator,
+            OpenApiSchemaResolver schemaResolver)
         {
             var addedOperations = 0;
             var allOps = operations.Select(t => t.Item1).ToList();
@@ -173,7 +167,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                     var path = operation.Path.Replace("//", "/");
 
                     if (!document.Paths.ContainsKey(path))
-                        document.Paths[path] = new SwaggerPathItem();
+                        document.Paths[path] = new OpenApiPathItem();
 
                     if (document.Paths[path].ContainsKey(operation.Method))
                     {
@@ -189,17 +183,18 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             return addedOperations > 0;
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type staticAzureFunctionClassType, MethodInfo methodInfo, 
-            SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, 
-            SwaggerSchemaResolver schemaResolver)
+        // TODO: remove asyncness as most NSwag operations have been converted to sync.
+        private async Task<bool> RunOperationProcessorsAsync(OpenApiDocument document, Type staticAzureFunctionClassType, MethodInfo methodInfo, 
+            OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, 
+            OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, staticAzureFunctionClassType,
-                methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations);
+                methodInfo, swaggerGenerator, Settings.SchemaGenerator, schemaResolver, Settings, allOperations);
 
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
+                if (operationProcessor.Process(context) == false)
                     return false;
             }
 
@@ -209,15 +204,15 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                 .GetCustomAttributes()
                 // 3. Run from method attributes
                 .Concat(methodInfo.GetCustomAttributes())
-                .Where(a => a.GetType().IsAssignableTo("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
+                .Where(a => a.GetType().IsAssignableToTypeName("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
-                var operationProcessor = ReflectionExtensions.HasProperty(attribute, "Parameters") ?
+                var operationProcessor = ObjectExtensions.HasProperty(attribute, "Parameters") ?
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
+                if (operationProcessor.Process(context) == false)
                     return false;
             }
             
@@ -236,7 +231,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             var methods = azureFunctionStaticClassType.GetMethods(BindingFlags.Static | BindingFlags.Public);
             methods = methods.Where(x => x.GetCustomAttributes().Any(a => a.GetType().Name == "FunctionNameAttribute")).ToArray();
             methods = methods.Where(x => x.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" &&
-                                                             a.GetType().Name != "NonActionAttribute")).ToArray();
+                                                                          a.GetType().Name != "OpenApiIgnoreAttribute" &&
+                                                                          a.GetType().Name != "NonActionAttribute")).ToArray();
             methods = methods.Where(x => x.GetParameters().Any(p => p.ParameterType.Name == "HttpRequest")).ToArray();
             if (functionNames != null)
             {
@@ -306,29 +302,29 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                 foreach (var httpMethod in methodsPropertyValue)
                 {
                     if(httpMethod.StartsWith("get", StringComparison.OrdinalIgnoreCase))
-                        httpMethods.Add(SwaggerOperationMethod.Get);
+                        httpMethods.Add(OpenApiOperationMethod.Get);
                     else if (httpMethod.StartsWith("post", StringComparison.OrdinalIgnoreCase))
-                        httpMethods.Add(SwaggerOperationMethod.Post);
+                        httpMethods.Add(OpenApiOperationMethod.Post);
                     else if (httpMethod.StartsWith("put", StringComparison.OrdinalIgnoreCase))
-                        httpMethods.Add(SwaggerOperationMethod.Put);
+                        httpMethods.Add(OpenApiOperationMethod.Put);
                     else if (httpMethod.StartsWith("patch", StringComparison.OrdinalIgnoreCase))
-                        httpMethods.Add(SwaggerOperationMethod.Patch);
+                        httpMethods.Add(OpenApiOperationMethod.Patch);
                     else if (httpMethod.StartsWith("delete", StringComparison.OrdinalIgnoreCase))
-                        httpMethods.Add(SwaggerOperationMethod.Delete);
+                        httpMethods.Add(OpenApiOperationMethod.Delete);
                     else if (httpMethod.StartsWith("head", StringComparison.OrdinalIgnoreCase))
-                        httpMethods.Add(SwaggerOperationMethod.Head);
+                        httpMethods.Add(OpenApiOperationMethod.Head);
                     else if (httpMethod.StartsWith("options", StringComparison.OrdinalIgnoreCase))
-                        httpMethods.Add(SwaggerOperationMethod.Options);
+                        httpMethods.Add(OpenApiOperationMethod.Options);
                 }
             }
 
             if(!httpMethods.Any())
-                httpMethods.Add(SwaggerOperationMethod.Get);
+                httpMethods.Add(OpenApiOperationMethod.Get);
 
             return httpMethods;
         }
 
-        private string GetOperationId(SwaggerDocument document, string staticAzureFunctionClassName, MethodInfo method)
+        private string GetOperationId(OpenApiDocument document, string staticAzureFunctionClassName, MethodInfo method)
         {
             string operationId;
 
@@ -380,20 +376,20 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// Create a Swagger document with settings applied.
         /// </summary>
         /// <returns></returns>
-        private async Task<SwaggerDocument> CreateDocumentAsync()
+        private async Task<OpenApiDocument> CreateDocumentAsync()
         {
             var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ?
-                await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
-                new SwaggerDocument();
+                await OpenApiDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
+                new OpenApiDocument();
 
-            document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
+            document.Generator = "NSwag v" + OpenApiDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")";
             document.SchemaType = Settings.SchemaType;
 
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
 
             if (document.Info == null)
-                document.Info = new SwaggerInfo();
+                document.Info = new OpenApiInfo();
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
+using NSwag.Generation.Processors;
+using NSwag.Generation.Processors.Contexts;
 using NSwag.SwaggerGeneration.AzureFunctionsV2.ProcessorUtils;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
@@ -95,13 +96,13 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
             return false;
         }
 
-        public async Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             var httpPath = context.OperationDescription.Path;
             var position = 1;
 
             var ignoredParameterTypeNames = new string[] {"HttpRequest", "TraceWriter", "TextWriter", "ILogger", "ClaimsPrincipal", "CancellationToken"};
-            var ignoreAttributeTypeNames = new string[] {"SwaggerIgnoreAttribute", "FromServicesAttribute", "BindNeverAttribute"};
+            var ignoreAttributeTypeNames = new string[] {"SwaggerIgnoreAttribute", "OpenApiIgnoreAttribute", "FromServicesAttribute", "BindNeverAttribute"};
 
             // Ignore parameters that are directly Azure Functions related or explicitly marked as ignored.
             // The resulting parameters should include the HttpParam<T> parameters that come from
@@ -204,15 +205,15 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
 
                 var uriParameterName = parameterName;
                 var uriParameterNameLower = uriParameterName.ToLowerInvariant();
-                SwaggerParameter operationParameter = null;
+                OpenApiParameter operationParameter = null;
 
                 var lowerHttpPath = httpPath.ToLowerInvariant();
                 if (lowerHttpPath.Contains("{" + uriParameterNameLower + "}") ||
                     lowerHttpPath.Contains("{" + uriParameterNameLower + ":")) // path parameter
                 {
-                    operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                        uriParameterName, (parameterObj as ParameterInfo)).ConfigureAwait(false);
-                    operationParameter.Kind = SwaggerParameterKind.Path;
+                    operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
+                        uriParameterName, (parameterObj as ParameterInfo).ToContextualParameter());
+                    operationParameter.Kind = OpenApiParameterKind.Path;
                     operationParameter.IsRequired = true; // Path is always required => property not needed
 
                     if (_settings.SchemaType == SchemaType.Swagger2)
@@ -232,13 +233,13 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                             var synthesizedAttributes = new Attribute[] { };
                             if (((SwaggerMethodAttributeParameter)parameterObj).Required)
                                 attributes.Add(new RequiredAttribute());
-                            operationParameter = await AddFileParameterAsync(context, parameterAsAttribute.Name, parameterAsAttribute.Description,
+                            operationParameter = AddFileParameter(context, parameterAsAttribute.Name, parameterAsAttribute.Description,
                                 (bool)parameterAsAttribute.Properties["MultiFile"], synthesizedAttributes);
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
                         }
                         else if (parameterAsAttribute.ParameterType == SwaggerMethodAttributeParameterType.TypedBody)
                         {
-                            operationParameter = await AddSwaggerRequestBodyTypeParameterAsync(context,
+                            operationParameter = AddSwaggerRequestBodyTypeParameter(context,
                                 parameterAsAttribute.Name,
                                 parameterAsAttribute.ExplicitType, new List<Attribute>(),
                                 parameterAsAttribute.Required,
@@ -248,30 +249,30 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                         }
                         else if (parameterAsAttribute.ParameterType == SwaggerMethodAttributeParameterType.Form)
                         {
-                            operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
+                            operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
                                 parameterAsAttribute.Name, parameterAsAttribute.Description,
-                                parameterAsAttribute.ExplicitType, new Attribute[] { }).ConfigureAwait(false);
-                            operationParameter.Kind = SwaggerParameterKind.FormData;
+                                parameterAsAttribute.ExplicitType.ToContextualType());
+                            operationParameter.Kind = OpenApiParameterKind.FormData;
                             operationParameter.IsRequired = parameterAsAttribute.Required;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
                         }
                         else if (parameterAsAttribute.ParameterType == SwaggerMethodAttributeParameterType.Header)
                         {
-                            operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
+                            operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
                                 parameterAsAttribute.Name, parameterAsAttribute.Description,
-                                parameterAsAttribute.ExplicitType, new Attribute[] { }).ConfigureAwait(false);
-                            operationParameter.Kind = SwaggerParameterKind.Header;
+                                parameterAsAttribute.ExplicitType.ToContextualType());
+                            operationParameter.Kind = OpenApiParameterKind.Header;
                             operationParameter.IsRequired = parameterAsAttribute.Required;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
                         }
                         else if (parameterAsAttribute.ParameterType == SwaggerMethodAttributeParameterType.Query)
                         {
-                            operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
+                            operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
                                 parameterAsAttribute.Name, parameterAsAttribute.Description,
-                                parameterAsAttribute.ExplicitType, new Attribute[] { }).ConfigureAwait(false);
-                            operationParameter.Kind = SwaggerParameterKind.Query;
+                                parameterAsAttribute.ExplicitType.ToContextualType());
+                            operationParameter.Kind = OpenApiParameterKind.Query;
                             operationParameter.IsRequired = parameterAsAttribute.Required;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -282,13 +283,13 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     else if(((ParameterInfo)parameterObj).ParameterType.Name == "HttpParam`1")
                     {
                         var httpParam = (ParameterInfo) parameterObj;                        
-                        var httpParamDocumentation = await httpParam.GetXmlDocumentationAsync();
+                        var httpParamDocumentation = httpParam.GetXmlDocs();
                         var httpParamType = httpParam.ParameterType;
 
                         var httpParamContainerValueType = httpParamType.GetGenericArguments().FirstOrDefault();
                         var paramAttributes = httpParam.GetCustomAttributes().ToList();
                         var paramHttpExtensionAttribute = paramAttributes.FirstOrDefault(x =>
-                            x.GetType().InheritsFrom("HttpSourceAttribute", TypeNameStyle.Name));
+                            x.GetType().InheritsFromTypeName("HttpSourceAttribute", TypeNameStyle.Name));
 
                         // Interpret the type and its attributes into attributes the SwaggerGenerator can understand.
                         var synthesizedAttributes = new List<Attribute>();
@@ -301,29 +302,29 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                             parameterName = annotatedParamName;
 
                         if(paramHttpExtensionAttribute.GetType().Name != "HttpBodyAttribute")
-                            operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
+                            operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
                                 parameterName, httpParamDocumentation,
-                                httpParamContainerValueType, synthesizedAttributes);
+                                httpParamContainerValueType.ToContextualType(synthesizedAttributes));
 
                         if (paramHttpExtensionAttribute.GetType().Name == "HttpFormAttribute")
                         {
-                            operationParameter.Kind = SwaggerParameterKind.FormData;
+                            operationParameter.Kind = OpenApiParameterKind.FormData;
                             if (httpParamContainerValueType.Name == "IFormFile" ||
                                 httpParamContainerValueType.Name == "IFormFileCollection")
                             {
-                                operationParameter = await AddFileParameterAsync(context, parameterName,
+                                operationParameter = AddFileParameter(context, parameterName,
                                     httpParamDocumentation,
                                     httpParamContainerValueType.Name == "IFormFileCollection",
                                     synthesizedAttributes);
                             }
                         }
                         else if (paramHttpExtensionAttribute.GetType().Name == "HttpQueryAttribute")
-                            operationParameter.Kind = SwaggerParameterKind.Query;
+                            operationParameter.Kind = OpenApiParameterKind.Query;
                         else if (paramHttpExtensionAttribute.GetType().Name == "HttpHeaderAttribute")
-                            operationParameter.Kind = SwaggerParameterKind.Header;
+                            operationParameter.Kind = OpenApiParameterKind.Header;
                         else if (paramHttpExtensionAttribute.GetType().Name == "HttpBodyAttribute")
                         {
-                            operationParameter = await AddSwaggerRequestBodyTypeParameterAsync(context, parameterName,
+                            operationParameter = AddSwaggerRequestBodyTypeParameter(context, parameterName,
                                 httpParamContainerValueType,
                                 synthesizedAttributes, required, httpParamDocumentation /* todo */);
                         }
@@ -354,7 +355,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                     if (context.OperationDescription.Operation.Parameters.All(p => !string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                     {
                         var parameterType = match.Groups.Count == 5 ? match.Groups[3].Value : "string";
-                        var operationParameter = context.SwaggerGenerator.CreateUntypedPathParameter(parameterName, parameterType);
+                        var operationParameter = context.DocumentGenerator.CreateUntypedPathParameter(parameterName, parameterType);
                         context.OperationDescription.Operation.Parameters.Add(operationParameter);
                     }
                 }
@@ -366,46 +367,46 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
             return true;
         }
 
-        private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
+        private void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
                 operationDescription.Operation.Consumes = new List<string> { "multipart/form-data" };
-            else if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData))
+            else if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.FormData))
                 operationDescription.Operation.Consumes = new List<string>() {"application/x-www-form-urlencoded"};
         }
 
-        private void RemoveUnusedPathParameters(SwaggerOperationDescription operationDescription, string httpPath)
+        private void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
         {
             operationDescription.Path = Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
-                if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
+                if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                     return "{" + parameterName + "}";
                 return string.Empty;
             }).TrimEnd('/');
         }
 
-        private async Task<SwaggerParameter> AddSwaggerRequestBodyTypeParameterAsync(OperationProcessorContext context,
+        private OpenApiParameter AddSwaggerRequestBodyTypeParameter(OperationProcessorContext context,
             string parameterName, Type parameterType, List<Attribute> attributes, bool required,
             string description)
         {
-            SwaggerParameter operationParameter;
+            OpenApiParameter operationParameter;
 
             var typeDescription = _settings.ReflectionService.GetDescription(
-                parameterType,
-                attributes, _settings);
+                parameterType.ToContextualType(attributes),
+                _settings);
             var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
 
             var operation = context.OperationDescription.Operation;
             if (parameterType.Name == "XmlDocument" ||
-                parameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
+                parameterType.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))
             {
                 operation.Consumes = new List<string> { "application/xml" };
-                operationParameter = new SwaggerParameter
+                operationParameter = new OpenApiParameter
                 {
                     Name = parameterName ?? "Body",
-                    Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Kind = OpenApiParameterKind.Body,
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         IsNullableRaw = isNullable
@@ -416,14 +417,14 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
                 };
             }
             // TODO: need to check if this makes any sense. Need a test case.
-            else if (parameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
+            else if (parameterType.IsAssignableToTypeName("System.IO.Stream", TypeNameStyle.FullName))
             {
                 operation.Consumes = new List<string> { "application/octet-stream" };
-                operationParameter = new SwaggerParameter
+                operationParameter = new OpenApiParameter
                 {
                     Name = parameterName ?? "Body",
-                    Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Kind = OpenApiParameterKind.Body,
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         Format = JsonFormatStrings.Byte,
@@ -436,41 +437,42 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
             }
             else
             {
-                operationParameter = new SwaggerParameter
+                operationParameter = new OpenApiParameter
                 {
                     Name = parameterName ?? "Body",
-                    Kind = SwaggerParameterKind.Body,
+                    Kind = OpenApiParameterKind.Body,
                     IsRequired = required,
                     IsNullableRaw = isNullable,
                     Description = description,
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                        parameterType, attributes, isNullable,
-                        schemaResolver: context.SchemaResolver).ConfigureAwait(false)
-                };
+                    Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                        parameterType.ToContextualType(attributes),
+                        isNullable,
+                        context.SchemaResolver)
+            };
             }
 
             return operationParameter;
         }
 
-        private async Task<SwaggerParameter> AddFileParameterAsync(
+        private OpenApiParameter AddFileParameter(
             OperationProcessorContext context, string name, string description, bool multiFile, IEnumerable<Attribute> attributes)
         {
             var parameterDocumentation = description ?? "";
-            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                name, parameterDocumentation, typeof(IFormFile), attributes).ConfigureAwait(false);
+            var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
+                name, parameterDocumentation, typeof(IFormFile).ToContextualType(attributes));
 
             InitializeFileParameter(operationParameter, multiFile);
             
             return operationParameter;
         }
 
-        private void InitializeFileParameter(SwaggerParameter operationParameter, bool isFileArray)
+        private void InitializeFileParameter(OpenApiParameter operationParameter, bool isFileArray)
         {
             operationParameter.Type = JsonObjectType.File;
-            operationParameter.Kind = SwaggerParameterKind.FormData;
+            operationParameter.Kind = OpenApiParameterKind.FormData;
 
             if (isFileArray)
-                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+                operationParameter.CollectionFormat = OpenApiParameterCollectionFormat.Multi;
         }
     }
 }

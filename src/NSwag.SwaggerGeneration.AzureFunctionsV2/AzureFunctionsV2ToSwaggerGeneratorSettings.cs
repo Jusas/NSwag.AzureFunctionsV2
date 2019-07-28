@@ -1,5 +1,6 @@
-﻿using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
-using NSwag.SwaggerGeneration.Processors;
+﻿using NSwag.Generation;
+using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
+using NSwag.Generation.Processors;
 
 namespace NSwag.SwaggerGeneration.AzureFunctionsV2
 {
@@ -10,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
     /// Security processors must be added manually matching your security usage (Basic, OAuth2, ApiKey...).
     /// </para>
     /// </summary>
-    public class AzureFunctionsV2ToSwaggerGeneratorSettings : SwaggerGeneratorSettings
+    public class AzureFunctionsV2ToSwaggerGeneratorSettings : OpenApiDocumentGeneratorSettings
     {
         /// <summary>Initializes a new instance of the <see cref="AzureFunctionsV2ToSwaggerGeneratorSettings"/> class.</summary>
         public AzureFunctionsV2ToSwaggerGeneratorSettings()

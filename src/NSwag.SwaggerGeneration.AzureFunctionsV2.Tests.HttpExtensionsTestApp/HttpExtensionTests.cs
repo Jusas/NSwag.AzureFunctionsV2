@@ -284,7 +284,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             [HttpToken]HttpUser user,
             ILogger log)
         {
-            return new OkResult();
+            return new OkObjectResult(new
+            {
+                user = user.ClaimsPrincipal.Identity.Name
+            });
         }
 
         /// <summary>

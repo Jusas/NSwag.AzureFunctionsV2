@@ -2,11 +2,27 @@
 
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-green.svg?style=flat)](https://github.com/Jusas/NSwag.AzureFunctionsV2/wiki) 
 [![Nuget](https://img.shields.io/nuget/v/NSwag.SwaggerGeneration.AzureFunctionsV2.svg)](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AzureFunctionsV2/) 
-[![Tested version](https://img.shields.io/badge/NSwag%20version%20tested-12.0.14-blue.svg)](https://github.com/RicoSuter/NSwag)
+[![NSwag support](https://img.shields.io/badge/NSwag%20version%20tested-12.0.14-blue.svg)](https://github.com/RicoSuter/NSwag)
+[![NSwag support](https://img.shields.io/badge/NSwag%20version%20tested-13.0.4-blue.svg)](https://github.com/RicoSuter/NSwag)
 
 ![Logo](assets/logo.png)
 
-See the demo: https://functionsswagger.azurewebsites.net/api/swaggerui/index.html (an Azure Function App serving a Swagger UI and the Swagger JSON that is generated on the fly from the Function App assembly).    
+## Supported versions of NSwag
+
+* NSwag version __v12.0.14__ has been tested and is supported by this library __v1.0.1__
+* NSwag version __v13.0.4__  has been tested and is supported by this library __v1.1.0__
+
+**Please note that v13 of NSwag introduces major naming changes and refactorings**.
+Most names now use __OpenApi__ prefixes instead of __Swagger__ so some refactoring will be needed
+on the using side as well. This library however has made minimal changes to namings when adapting v13 of NSwag and
+for the most part hides NSwag behind it so you should get away with minimal changes.
+
+Also note that since v13 the main dependency has changed from NSwag.SwaggerGeneration to NSwag.Generation.
+
+## Introduction
+
+**See the demo!** https://functionsswagger.azurewebsites.net/api/swaggerui/index.html (an Azure Function App serving a Swagger UI and the Swagger JSON that is generated on the fly from the Function App assembly).    
+
 The demo source is in two projects: [HttpExtensionsTestApp](src/NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp) and [HttpExtensionsTestApp.Startup](src/NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup).
 
 This is an extension to NSwag, specifically a SwaggerGenerator implementation designed
@@ -37,9 +53,17 @@ some gaps with additional annotations.
 
 ## NSwag Core version compatibility
 
-NSwag.AzureFunctionsV2 is built as a Swagger Generator implementation on top of NSwag.Core and NSwag.SwaggerGeneration packages and it's important to note that these projects aren't necessarily updated in sync.
+NSwag.AzureFunctionsV2 is built as a Swagger Generator implementation on top of NSwag.Core and NSwag.Generation packages and it's important to note that 
+these projects aren't necessarily updated in sync. Hence why specific versions of this library support specific versions of NSwag. The development of NSwag
+is quite fluid and the API changes a lot, and it does not follow strict semantic versioning so it's quite possible that a minor and patch version updates can be
+breaking. That is why the supported, tested compatible versions are explicitly listed.
 
-The shield on top (![Shield](https://img.shields.io/badge/NSwag%20version%20tested-grey.svg)) tells you the version of NSwag that the current version of NSwag.AzureFunctionsV2 has been developed and tested with. Most of the time however the latest 12.0.xx patch versions should be compatible though, but it is possible that a public API change in the NSwag projects slips in to a patch version and breaks something.
+The shield on top (![Shield](https://img.shields.io/badge/NSwag%20version%20tested-grey.svg)) tells you the version of NSwag that the current version of 
+NSwag.AzureFunctionsV2 has been developed and tested with. Most of the time however the latest NSwag 12.0.xx patch versions should be compatible with v1.0.1 though, 
+but it is possible that a public API change in the NSwag projects slips in to a patch version and breaks something. At the time of writing, compatibility update v1.1.0
+brings support for NSwag v13, and has been tested against v13.0.4.
+
+Please note that the naming scheme has changed between NSwag v12 and v13, and classes starting with Swagger in v12 are for the most part been renamed to start with OpenApi in v13.
 
 ## Examples
 
@@ -93,7 +117,7 @@ Produces:
 And to actually share the Swagger document with the world, we can create a Function in our Function App that produces and serves it:
 
 ```C#
-[SwaggerIgnore]
+[OpenApiIgnore]
 [FunctionName("swagger")]
 public static async Task<IActionResult> Swagger(
     [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
@@ -175,14 +199,14 @@ security schemes you're using. For example:
 
 ```C#
 settings.DocumentProcessors.Add(
-  new SecurityDefinitionAppender("MyBasicAuth", new SwaggerSecurityScheme()
+  new SecurityDefinitionAppender("MyBasicAuth", new OpenApiSecurityScheme()
 {
-    Type = SwaggerSecuritySchemeType.Basic,
+    Type = OpenApiSecuritySchemeType.Basic,
     Scheme = "Basic",
     Description = "Basic auth"
 }));
 settings.OperationProcessors.Add(
-  new OperationSecurityProcessor("MyBasicAuth", SwaggerSecuritySchemeType.Basic));
+  new OperationSecurityProcessor("MyBasicAuth", OpenApiSecuritySchemeType.Basic));
 ```
 
 And with this, the following Function annotation will properly be documented and
@@ -235,7 +259,7 @@ This produces:
 ```
 
 So as a summary, you declared a security scheme called "Basic", with the type being 
-`SwaggerSecuritySchemeType.Basic` (this produces the security definition at the end of the 
+`OpenApiSecuritySchemeType.Basic` (this produces the security definition at the end of the 
 JSON), and the an `OperationSecurityProcessor` (which gets run for all the Functions) that
 you tell to bind Basic authentication schemes to a security definition called "Basic",
 resulting in the above Swagger JSON.

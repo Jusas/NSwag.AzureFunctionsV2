@@ -13,10 +13,11 @@
     <PackageTags>Azure Functions, Swagger, NSwag</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>H:\dev\NSwag.AzureFunctions\src\NSwag.Annotations.AzureFunctionsV2\NSwag.Annotations.AzureFunctionsV2.xml</DocumentationFile>
+    <DocumentationFile>F:\dev\NSwag.AzureFunctionsV2\src\NSwag.Annotations.AzureFunctionsV2\NSwag.Annotations.AzureFunctionsV2.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
