@@ -10,6 +10,7 @@
 ## Latest version
 
 Latest published version is __v1.1.1__.
+Available from Nuget as [NSwag.SwaggerGeneration.AzureFunctionsV2](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AzureFunctionsV2/).
 
 Changes:
 
