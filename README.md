@@ -7,10 +7,19 @@
 
 ![Logo](assets/logo.png)
 
+## Latest version
+
+Latest published version is __v1.1.1___.
+
+Changes:
+
+* Added support for non-static Function classes
+
+
 ## Supported versions of NSwag
 
 * NSwag version __v12.0.14__ has been tested and is supported by this library __v1.0.1__
-* NSwag version __v13.0.4__  has been tested and is supported by this library __v1.1.0__
+* NSwag version __v13.0.4__  has been tested and is supported by this library __v1.1.*__
 
 **Please note that v13 of NSwag introduces major naming changes and refactorings**.
 Most names now use __OpenApi__ prefixes instead of __Swagger__ so some refactoring will be needed
