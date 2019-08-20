@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/Jusas/NSwag.AzureFunctionsV2</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Azure Functions, Swagger, NSwag</PackageTags>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

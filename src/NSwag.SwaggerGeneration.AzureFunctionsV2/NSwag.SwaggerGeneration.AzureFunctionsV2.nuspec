@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>NSwag.SwaggerGeneration.AzureFunctionsV2</id>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <authors>Jussi Saarivirta</authors>
     <owners>Jussi Saarivirta</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>

@@ -29,7 +29,6 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         public AzureFunctionsV2ToSwaggerGenerator(AzureFunctionsV2ToSwaggerGeneratorSettings settings)
         {
             Settings = settings;
-            // _schemaGenerator = settings.SchemaGenerator;
         }
 
         /// <summary>
@@ -42,9 +41,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             // Get classes that are: 1) static, 2) have static methods that have the FunctionName attribute, 3) are not ignored.
             
             var staticAzureFunctionClasses = assembly.ExportedTypes
-                .Where(x => x.IsAbstract && x.IsSealed && x.IsClass)
+                .Where(x => x.IsClass)
                 .Where(x => x.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "OpenApiIgnoreAttribute"))
-                .Where(x => x.GetMethods(BindingFlags.Static).Any(m => m.GetCustomAttributes().SingleOrDefault(a => a.GetType().Name == "FunctionNameAttribute") != null));
+                .Where(x => x.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).Any(m => m.GetCustomAttributes().SingleOrDefault(a => a.GetType().Name == "FunctionNameAttribute") != null));
 
             return staticAzureFunctionClasses;
         }
@@ -228,7 +227,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// <returns></returns>
         private static IEnumerable<MethodInfo> GetActionMethods(Type azureFunctionStaticClassType, IList<string> functionNames)
         {
-            var methods = azureFunctionStaticClassType.GetMethods(BindingFlags.Static | BindingFlags.Public);
+            var methods = azureFunctionStaticClassType.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
             methods = methods.Where(x => x.GetCustomAttributes().Any(a => a.GetType().Name == "FunctionNameAttribute")).ToArray();
             methods = methods.Where(x => x.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" &&
                                                                           a.GetType().Name != "OpenApiIgnoreAttribute" &&
