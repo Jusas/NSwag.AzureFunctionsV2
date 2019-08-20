@@ -9,7 +9,7 @@
 
 ## Latest version
 
-Latest published version is __v1.1.1___.
+Latest published version is __v1.1.1__.
 
 Changes:
 
