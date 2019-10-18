@@ -26,6 +26,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Start
                 "<br/><b>Basic auth:</b> \"user\" : \"pass\" <br/> " +
                 "<b>ApiKey:</b> \"key\".";
 
+            //settings.RoutePrefix = "";
             settings.OperationProcessors.Add(new OperationSecurityProcessor("Bearer",
                 OpenApiSecuritySchemeType.OpenIdConnect));
             var scopes = new List<string>() {"openid", "profile", "name"};

@@ -252,7 +252,9 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         /// <returns></returns>
         private IEnumerable<string> GetHttpPaths(MethodInfo method)
         {
-            // Default route is /api/<FunctionName>
+            // Default route is /api/<FunctionName>.
+            // The route prefix can be overridden with host.json, so we need to accommodate that.
+
             var defaultMethodName = method.GetCustomAttributes()
                 .Single(x => x.GetType().Name == "FunctionNameAttribute")
                 .TryGetPropertyValue("Name", default(string));
@@ -270,8 +272,14 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
                 routeTemplate = routePropertyValue;
             }
 
+            var routePrefix = Settings.RoutePrefix ?? "api";
+            if (!routePrefix.StartsWith("/"))
+                routePrefix = "/" + routePrefix;
+            if (!routePrefix.EndsWith("/"))
+                routePrefix = routePrefix + "/";
+
             var httpPaths = ExpandOptionalHttpPathParameters(routeTemplate, method)
-                .Select(x => "/api/" + x
+                .Select(x => routePrefix + x
                                  .Replace("[", "{")
                                  .Replace("]", "}")
                                  .Replace("{*", "{")

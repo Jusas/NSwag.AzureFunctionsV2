@@ -23,5 +23,10 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
 
         /// <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
         public bool AddMissingPathParameters { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RoutePrefix that can be defined in host.json. By default it is "api", if you override this in your host.json, you should set the same value here.
+        /// </summary>
+        public string RoutePrefix { get; set; }
     }
 }
