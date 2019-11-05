@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NSwag.Annotations;
@@ -20,6 +21,8 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
             public string Name { get; set; }
             public int Age { get; set; }
         }
+
+
 
         /// <summary>
         /// Default SwaggerAuthorizeAttribute
@@ -222,6 +225,44 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp
         [FunctionName("SwaggerIgnoredFunction2")]
         public static async Task<IActionResult> SwaggerIgnoredFunction2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        // Derived HttpRequest, should work.
+        public class MyHttpPostModel
+        {
+            public string Something { get; set; }
+        }
+
+        /// <summary>
+        /// A class with non HttpRequest req parameter.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
+        [FunctionName("SwaggerFunctionWithNonHttpRequestParam")]
+        public static async Task<IActionResult> SwaggerFunctionWithNonHttpRequestParam(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] MyHttpPostModel req,
+            ILogger log)
+        {
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// A class with non HttpRequest req parameter.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        [SwaggerAuthorize]
+        [SwaggerRequestBodyType(typeof(MyHttpPostModel), false, "My Custom Body", "My Custom Body Description")]
+        [SwaggerResponse(200, typeof(string), Description = "OK result")]
+        [FunctionName("SwaggerFunctionWithNonHttpRequestParamAndBodyTypeSet")]
+        public static async Task<IActionResult> SwaggerFunctionWithNonHttpRequestParamAndBodyTypeSet(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] MyHttpPostModel req,
             ILogger log)
         {
             return new OkResult();

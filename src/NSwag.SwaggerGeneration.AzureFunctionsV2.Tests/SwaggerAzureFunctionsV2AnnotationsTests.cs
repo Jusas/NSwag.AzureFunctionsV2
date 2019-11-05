@@ -279,5 +279,39 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Tests
             // Assert
             swaggerDoc.Operations.Count().Should().Be(0);
         }
+
+        [Fact]
+        public async Task Should_not_limit_to_HttpRequest_class_in_discovery()
+        {
+            // Arrange
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var functionName = nameof(GenerationAnnotationTests.SwaggerFunctionWithNonHttpRequestParam);
+
+            // Act
+            var swaggerDoc = await generator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(
+                typeof(GenerationAnnotationTests), new List<string>() { functionName });
+
+            // Assert
+            swaggerDoc.Operations.Count().Should().Be(1);
+        }
+
+        [Fact]
+        public async Task Should_have_body_type_automatically_discovered_from_custom_post_request_body_type()
+        {
+            // Arrange
+            var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(settings);
+            var functionName = nameof(GenerationAnnotationTests.SwaggerFunctionWithNonHttpRequestParam);
+
+            // Act
+            var swaggerDoc = await generator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(
+                typeof(GenerationAnnotationTests), new List<string>() { functionName });
+
+            // Assert
+            swaggerDoc.Operations.Count().Should().Be(1);
+            swaggerDoc.Operations.First().Operation.RequestBody.Name.Should().Be("req");
+        }
+
     }
 }

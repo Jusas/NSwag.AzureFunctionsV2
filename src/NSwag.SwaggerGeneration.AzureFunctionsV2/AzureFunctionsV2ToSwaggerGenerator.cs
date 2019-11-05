@@ -232,7 +232,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             methods = methods.Where(x => x.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" &&
                                                                           a.GetType().Name != "OpenApiIgnoreAttribute" &&
                                                                           a.GetType().Name != "NonActionAttribute")).ToArray();
-            methods = methods.Where(x => x.GetParameters().Any(p => p.ParameterType.Name == "HttpRequest")).ToArray();
+            methods = methods.Where(x => x.GetParameters().Any(p => p.GetCustomAttributes().Any(a => a.GetType().Name == "HttpTriggerAttribute"))).ToArray();
             if (functionNames != null)
             {
                 methods = methods.Where(x =>
@@ -262,7 +262,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
             
             // If route is defined in the HttpTrigger, we grab that.
             var httpRequestParameter = method.GetParameters()
-                .SingleOrDefault(x => x.ParameterType.Name == "HttpRequest");
+                .SingleOrDefault(x => x.GetCustomAttributes().Any(a => a.GetType().Name == "HttpTriggerAttribute"));
             var httpTriggerAttribute = httpRequestParameter?.GetCustomAttributes()
                 .SingleOrDefault(x => x.GetType().Name == "HttpTriggerAttribute");
             var routePropertyValue = httpTriggerAttribute.TryGetPropertyValue("Route", default(string));
@@ -298,7 +298,7 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2
         {
             // Grab the methods from the HttpTrigger.
             var httpRequestParameter = method.GetParameters()
-                .SingleOrDefault(x => x.ParameterType.Name == "HttpRequest");
+                .SingleOrDefault(x => x.GetCustomAttributes().Any(a => a.GetType().Name == "HttpTriggerAttribute"));
             var httpTriggerAttribute = httpRequestParameter?.GetCustomAttributes()
                 .SingleOrDefault(x => x.GetType().Name == "HttpTriggerAttribute");
             var methodsPropertyValue = httpTriggerAttribute.TryGetPropertyValue("Methods", default(string[]));

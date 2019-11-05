@@ -117,6 +117,26 @@ namespace NSwag.SwaggerGeneration.AzureFunctionsV2.Processors
             var methodAzureFunctionsSwaggerAttributes =
                 OperationParameterProcessorUtils.GetAttributes(context.MethodInfo);
 
+            // Exception: Find the parameter that has the HttpTrigger attribute, and check its type:
+            // If it's not a HttpRequest, then this signifies the HTTP body type, and we can synthesize
+            // a body attribute from it (SwaggerRequestBodyTypeAttribute however overrides it if it's set)
+
+            var triggerParameter = context.MethodInfo.GetParameters()
+                .FirstOrDefault(x => x.GetCustomAttributes().Any(a => a.GetType().Name == "HttpTriggerAttribute"));
+            if (triggerParameter?.ParameterType.Name != null && triggerParameter?.ParameterType.Name != "HttpRequest")
+            {
+                var triggerAttribute = triggerParameter.GetCustomAttributes().FirstOrDefault(a => a.GetType().Name == "HttpTriggerAttribute");
+                var methods = triggerAttribute.TryGetPropertyValue("Methods", default(string[]));
+                if (methods != null && methods.Any(m => m.Equals("post", StringComparison.OrdinalIgnoreCase)) &&
+                    methodAzureFunctionsSwaggerAttributes.RequestBodyTypeAttribute == null)
+                {
+                    parameters.Add(new SwaggerMethodAttributeParameter(triggerParameter.Name, SwaggerMethodAttributeParameterType.TypedBody,
+                        triggerParameter.ParameterType, true, null));
+                }
+            }
+
+
+
             if (methodAzureFunctionsSwaggerAttributes.UploadFileAttributes.Any())
             {
                 foreach (var uploadFileAttribute in methodAzureFunctionsSwaggerAttributes.UploadFileAttributes)

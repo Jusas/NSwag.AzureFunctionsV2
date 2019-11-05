@@ -108,6 +108,22 @@
             <param name="log"></param>
             <returns></returns>
         </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerFunctionWithNonHttpRequestParam(NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.MyHttpPostModel,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            A class with non HttpRequest req parameter.
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerFunctionWithNonHttpRequestParamAndBodyTypeSet(NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.MyHttpPostModel,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            A class with non HttpRequest req parameter.
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
         <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.HttpExtensionTests.HttpExtensionsQueryParams1(Microsoft.AspNetCore.Http.HttpRequest,AzureFunctionsV2.HttpExtensions.Infrastructure.HttpParam{System.String},Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Query parameter of type string, name 'qp'
