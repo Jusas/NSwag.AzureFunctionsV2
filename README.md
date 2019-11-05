@@ -9,10 +9,15 @@
 
 ## Latest version
 
-Latest published version is __v1.1.1__.
+Latest published version is __v1.1.2__.
 Available from Nuget as [NSwag.SwaggerGeneration.AzureFunctionsV2](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AzureFunctionsV2/).
 
-Changes:
+Changes in 1.1.2:
+
+* Added support for route prefix in host.json. **AzureFunctionsV2ToSwaggerGeneratorSettings** has a property called **RoutePrefix**, which you should set to the same as what you set your extensions.http.routePrefix in your host.json.
+
+
+Changes in 1.1.1:
 
 * Added support for non-static Function classes
 
