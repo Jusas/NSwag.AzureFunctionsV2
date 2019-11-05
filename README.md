@@ -9,8 +9,14 @@
 
 ## Latest version
 
-Latest published version is __v1.1.2__.
+Latest published version is __v1.1.3__.
 Available from Nuget as [NSwag.SwaggerGeneration.AzureFunctionsV2](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AzureFunctionsV2/).
+
+Changes in 1.1.3:
+
+* Added support for non-HttpRequest type HttpTrigger annotated parameters.
+Also in those cases when the SwaggerRequestBodyType is not explicitly set, the body Type is still automatically detected and entered to the swagger spec, but when SwaggerRequestBodyType is provided then that is used instead.
+
 
 Changes in 1.1.2:
 
