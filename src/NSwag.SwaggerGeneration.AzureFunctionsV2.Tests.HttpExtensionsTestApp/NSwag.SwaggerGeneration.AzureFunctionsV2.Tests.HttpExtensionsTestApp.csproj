@@ -4,10 +4,10 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>F:\dev\NSwag.AzureFunctionsV2\src\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml</DocumentationFile>
+    <DocumentationFile>NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>F:\dev\NSwag.AzureFunctionsV2\src\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml</DocumentationFile>
+    <DocumentationFile>NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.xml" />
