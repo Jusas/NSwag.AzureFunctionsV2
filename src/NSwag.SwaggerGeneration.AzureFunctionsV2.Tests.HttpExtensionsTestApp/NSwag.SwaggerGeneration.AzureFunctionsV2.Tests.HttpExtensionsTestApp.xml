@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp</name>
+        <name>Tests.HttpExtensionsTestApp</name>
     </assembly>
     <members>
         <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp.GenerationAnnotationTests.SwaggerAuthorizeAttribute1(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
