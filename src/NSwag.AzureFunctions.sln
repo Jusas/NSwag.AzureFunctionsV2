@@ -13,13 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 SwaggerGeneration", "02 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Tests", "04 Tests", "{331BE0CD-3B6D-4B7A-B954-9732670FAD85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests\Tests.csproj", "{CB3EEADF-D5DA-434F-8F19-A7A014F62349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{CB3EEADF-D5DA-434F-8F19-A7A014F62349}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.TestFunctionApp", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.TestFunctionApp\Tests.TestFunctionApp.csproj", "{04548CCE-122F-4A92-9834-F6EE9C4F084E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.TestFunctionApp", "Tests.TestFunctionApp\Tests.TestFunctionApp.csproj", "{04548CCE-122F-4A92-9834-F6EE9C4F084E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.HttpExtensionsTestApp", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsTestApp\Tests.HttpExtensionsTestApp.csproj", "{25861D28-1E5D-40C8-BCCC-5074550090C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.HttpExtensionsTestApp", "Tests.HttpExtensionsTestApp\Tests.HttpExtensionsTestApp.csproj", "{25861D28-1E5D-40C8-BCCC-5074550090C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.HttpExtensionsApp.Startup", "NSwag.SwaggerGeneration.AzureFunctionsV2.Tests.HttpExtensionsApp.Startup\Tests.HttpExtensionsApp.Startup.csproj", "{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.HttpExtensionsApp.Startup", "Tests.HttpExtensionsApp.Startup\Tests.HttpExtensionsApp.Startup.csproj", "{5A6A8C6D-7F11-4D88-A01C-40EC9E72020F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

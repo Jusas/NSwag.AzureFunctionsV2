@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NSwag.SwaggerGeneration.AzureFunctionsV2</name>
+    </assembly>
+    <members>
+        <member name="T:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator">
+            <summary>
+            The main SwaggerGenerator that produces the Swagger document out of Azure Function assemblies.
+            </summary>
+        </member>
+        <member name="P:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.Settings">
+            <summary>
+            Swagger generator settings.
+            </summary>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.#ctor(NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGeneratorSettings)">
+            <summary>Initializes a new instance of the <see cref="T:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator" /> class.</summary>
+            <param name="settings">The settings</param>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GetAzureFunctionClasses(System.Reflection.Assembly)">
+            <summary>
+            Returns Azure Function classes from an assembly.
+            </summary>
+            <param name="assembly">The assembly to scan for static classes with Functions</param>
+            <returns>The Azure Function class types</returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GenerateForAzureFunctionClassesAsync(System.Collections.Generic.IEnumerable{System.Type},System.Collections.Generic.IList{System.String})">
+            <summary>
+            Generates Swagger document for the specified Azure Function classes, including only the listed Functions.
+            </summary>
+            <param name="azureFunctionClassTypes">The Azure Function classes (static classes)</param>
+            <param name="functionNames">The function names (defined by FunctionNameAttribute)</param>
+            <returns>The generated Swagger document</returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GenerateForAzureFunctionClassAsync``1">
+            <summary>
+            Generates Swagger document for the specified Azure Function class type.
+            </summary>
+            <typeparam name="TAzureFunctionClass">The <see cref="T:System.Type"/> of the class</typeparam>
+            <returns>The generated Swagger document</returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GenerateForAzureFunctionClassAsync(System.Type)">
+            <summary>
+            Generates Swagger document for the specified Azure Function class type.
+            </summary>
+            <param name="azureFunctionClassType">The <see cref="T:System.Type"/> of the class</param>
+            <returns>The generated Swagger document</returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GenerateForAzureFunctionClassAndSpecificMethodsAsync(System.Type,System.Collections.Generic.IList{System.String})">
+            <summary>
+            Generates Swagger document for the specified Azure Function class type, including only the listed Functions.
+            </summary>
+            <param name="azureFunctionClassType">The <see cref="T:System.Type"/> of the class</param>
+            <param name="functionNames">The function names (defined by FunctionNameAttribute)</param>
+            <returns>The generated Swagger document</returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GetActionMethods(System.Type,System.Collections.Generic.IList{System.String})">
+            <summary>
+            Get methods from a class type which are Azure Functions.
+            </summary>
+            <param name="azureFunctionStaticClassType">The Function App static class type</param>
+            <param name="functionNames">The list of Function names to include. If null, will include all Functions,
+            unless ignored via ignore attributes.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GetHttpPaths(System.Reflection.MethodInfo)">
+            <summary>
+            Get the HTTP paths of an Azure Function.
+            </summary>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.GetSupportedHttpMethods(System.Reflection.MethodInfo)">
+            <summary>
+            Get the supported HTTP methods of an Azure Function.
+            </summary>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGenerator.CreateDocumentAsync">
+            <summary>
+            Create a Swagger document with settings applied.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGeneratorSettings">
+            <summary>
+            The SwaggerGenerator settings.
+            <para>
+            The default settings set up <see cref="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationParameterProcessor"/> and <see cref="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationResponseProcessor"/>.
+            Security processors must be added manually matching your security usage (Basic, OAuth2, ApiKey...).
+            </para>
+            </summary>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGeneratorSettings.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGeneratorSettings"/> class.</summary>
+        </member>
+        <member name="P:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGeneratorSettings.AddMissingPathParameters">
+            <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
+        </member>
+        <member name="P:NSwag.SwaggerGeneration.AzureFunctionsV2.AzureFunctionsV2ToSwaggerGeneratorSettings.RoutePrefix">
+            <summary>
+            Gets or sets the RoutePrefix that can be defined in host.json. By default it is "api", if you override this in your host.json, you should set the same value here.
+            </summary>
+        </member>
+        <member name="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationParameterProcessor">
+            <summary>
+            The processor that processes the operation parameters into the swagger document.
+            </summary>
+        </member>
+        <member name="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationParameterProcessor.SwaggerMethodAttributeParameter">
+            <summary>
+            A parameter that comes from method attributes such as SwaggerRequestHeaderAttribute.
+            These parameters are not present in the method signature and only exist as attributes.
+            </summary>
+        </member>
+        <member name="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationParameterProcessor.IFormFile">
+            <summary>
+            A dummy interface for file uploads, necessary for JSON file type
+            resolving.
+            </summary>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationParameterProcessor.HasBindingAttribute(System.Reflection.ParameterInfo)">
+            <summary>
+            Checks if a method parameter has attributes that are Binding attributes.
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationResponseProcessor">
+            <summary>
+            Processes operation response annotations/attributes into the swagger document.
+            </summary>
+        </member>
+        <member name="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationSecurityProcessor">
+            <summary>
+            Security processor which scans methods for security attributes/annotations.
+            <para>
+            This should be instantiated per different security scheme (ie. Basic, OAuth2, ApiKey...) you're using.
+            </para>
+            </summary>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationSecurityProcessor.#ctor(System.String,NSwag.OpenApiSecuritySchemeType,System.Nullable{NSwag.OpenApiSecurityApiKeyLocation})">
+            <summary>
+            Initializes the <see cref="T:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationSecurityProcessor"/> with the given name (which should match the name of
+            your <see cref="T:NSwag.Generation.Processors.Security.SecurityDefinitionAppender"/>) and <see cref="T:NSwag.OpenApiSecuritySchemeType"/>.
+            </summary>
+            <param name="name">The name of your Swagger security definition (which should match the name you gave to
+            your <see cref="T:NSwag.Generation.Processors.Security.SecurityDefinitionAppender"/>).</param>
+            <param name="type">The type of the scheme.</param>
+            <param name="location">If the type was <see cref="F:NSwag.OpenApiSecuritySchemeType.ApiKey"/>, the expected location of the key, otherwise null.</param>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.Processors.OperationSecurityProcessor.Process(NSwag.Generation.Processors.Contexts.OperationProcessorContext)">
+            <summary>Processes the specified method information.</summary>
+            <param name="context"></param>
+            <returns>true if the operation should be added to the Swagger specification.</returns>
+        </member>
+        <member name="M:NSwag.SwaggerGeneration.AzureFunctionsV2.ProcessorUtils.OperationParameterProcessorUtils.GetAttributes(System.Reflection.MethodInfo)">
+            <summary>
+            Returns the NSwag.Annotations.AzureFunctionsV2 attributes the given method has.
+            </summary>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

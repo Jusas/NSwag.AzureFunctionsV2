@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NSwag.Annotations.AzureFunctionsV2</name>
+    </assembly>
+    <members>
+        <member name="T:NSwag.Annotations.AzureFunctionsV2.SwaggerAuthorizeAttribute">
+            <summary>
+            Authorize annotation. NOTE! Only an annotation! Does not secure the method in any way!
+            </summary>
+        </member>
+        <member name="M:NSwag.Annotations.AzureFunctionsV2.SwaggerAuthorizeAttribute.#ctor">
+            <summary>
+            Initializes the <see cref="T:NSwag.Annotations.AzureFunctionsV2.SwaggerAuthorizeAttribute"/> with Basic AuthScheme.
+            </summary>
+        </member>
+        <member name="M:NSwag.Annotations.AzureFunctionsV2.SwaggerAuthorizeAttribute.#ctor(NSwag.Annotations.AzureFunctionsV2.AuthScheme)">
+            <summary>
+            Initializes the <see cref="T:NSwag.Annotations.AzureFunctionsV2.SwaggerAuthorizeAttribute"/> with the given AuthScheme.
+            </summary>
+            <param name="scheme"></param>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerAuthorizeAttribute.Scheme">
+            <summary>
+            The authorization scheme.
+            </summary>
+        </member>
+        <member name="T:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataAttribute">
+            <summary>
+            Indicates that the request body of this method contains a form multi-part key-value pair.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataAttribute.Name">
+            <summary>
+            The name of the form field in Swagger.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataAttribute.Type">
+            <summary>
+            The type of the form field data.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataAttribute.Description">
+            <summary>
+            The Swagger description of the form field.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataAttribute.Required">
+            <summary>
+            Indicates whether the form field is required or not.
+            </summary>
+        </member>
+        <member name="T:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataFileAttribute">
+            <summary>
+            Indicates that the request body of this method is a file (multipart/form-data).
+            </summary>
+        </member>
+        <member name="M:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataFileAttribute.#ctor(System.Boolean,System.String,System.String)">
+            <summary>
+            Initializes the attribute.
+            </summary>
+            <param name="multiFile">Indicates whether the method supports multiple file uploads</param>
+            <param name="name">The name of the file parameter</param>
+            <param name="description">The Swagger description of the file field</param>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataFileAttribute.Name">
+            <summary>
+            The name of the file parameter in Swagger.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataFileAttribute.MultiFile">
+            <summary>
+            Indicates whether the method supports multi-file upload.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerFormDataFileAttribute.Description">
+            <summary>
+            The Swagger description of the file field.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerQueryParameterAttribute.Name">
+            <summary>
+            The name of the query parameter in Swagger.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerQueryParameterAttribute.Type">
+            <summary>
+            The type of the query parameter data.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerQueryParameterAttribute.Description">
+            <summary>
+            The Swagger description of the query parameter.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerQueryParameterAttribute.Required">
+            <summary>
+            Indicates whether the header is required or not.
+            </summary>
+        </member>
+        <member name="T:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestBodyTypeAttribute">
+            <summary>
+            Indicates the type of the request body.
+            </summary>
+        </member>
+        <member name="M:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestBodyTypeAttribute.#ctor(System.Type,System.Boolean,System.String,System.String)">
+            <summary>
+            Instantiates the attribute.
+            </summary>
+            <param name="type">The type of the data expected in request body</param>
+            <param name="required">Indicates whether the body is required or not</param>
+            <param name="name">The name of the body parameter in Swagger</param>
+            <param name="description">The Swagger description of the body</param>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestBodyTypeAttribute.Type">
+            <summary>
+            The type of the data expected in request body.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestBodyTypeAttribute.Name">
+            <summary>
+            The name of the body parameter in Swagger.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestBodyTypeAttribute.Description">
+            <summary>
+            The Swagger description of the body.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestBodyTypeAttribute.Required">
+            <summary>
+            Indicates whether the body is required or not.
+            </summary>
+        </member>
+        <member name="M:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestHeaderAttribute.#ctor(System.String,System.Boolean,System.Type,System.String)">
+            <summary>
+            Initializes the attribute.
+            </summary>
+            <param name="name">The name of the header</param>
+            <param name="required">Indicates whether the header is required or not</param>
+            <param name="type">The type of the header data</param>
+            <param name="description">The Swagger description of the header</param>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestHeaderAttribute.Name">
+            <summary>
+            The name of the header parameter in Swagger.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestHeaderAttribute.Type">
+            <summary>
+            The type of the header data.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestHeaderAttribute.Description">
+            <summary>
+            The Swagger description of the header.
+            </summary>
+        </member>
+        <member name="P:NSwag.Annotations.AzureFunctionsV2.SwaggerRequestHeaderAttribute.Required">
+            <summary>
+            Indicates whether the header is required or not.
+            </summary>
+        </member>
+    </members>
+</doc>
